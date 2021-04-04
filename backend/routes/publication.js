@@ -15,7 +15,7 @@ router.post("/create/:userid", auth, multer, pubCtrl.createPub);
 router.get("/", pubCtrl.getAllPub);
 
 // * Select publications by userId
-router.get("/user/:userid", auth, pubCtrl.getPubByUser);
+router.get("/user/:userid", pubCtrl.getPubByUser); //! auth retiré
 
 // * Delete a publication
 router.delete("/:pubid/:userid", auth, ident, multer, pubCtrl.deletePub);

@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<h1 v-if="!logged">
-			Pour accéder au réseau social Groupomania, <br />renseigner les informations suivantes
+			Pour accéder au réseau social familial Réso' Mouto', <br />tu dois renseigner les
+			informations suivantes
 		</h1>
 
 		<div>
@@ -18,7 +19,10 @@
 			<div class=" p-text-left ">
 				<div class=" p-input-filled  " enctype="multipart/form-data">
 					<div class="p-grid p-jc-center  p-py-0">
-						<div class=" p-lg-4 p-md-5 p-col-11 vertical-container" v-if="mod || creat">
+						<div
+							class=" p-lg-4 p-md-5 p-col-11 vertical-container"
+							v-if="!logged || creat"
+						>
 							<p class=" p-float-label">
 								<InputText
 									class=""
@@ -28,12 +32,12 @@
 									v-model="prenom"
 								/><label for="firstname">Prénom</label>
 							</p>
-							<InlineMessage class="p-lg-6 p-12 " v-if="prenomInfo" severity="error"
+							<!-- <InlineMessage class="p-lg-6 p-12 " v-if="prenomInfo" severity="error"
 								>{{ prenomInfo }}
-							</InlineMessage>
+							</InlineMessage> -->
 						</div>
 					</div>
-					<div class="p-grid p-jc-center p-py-0">
+					<!-- <div class="p-grid p-jc-center p-py-0">
 						<div class=" p-lg-4 p-md-5 p-col-11 vertical-container" v-if="mod || creat">
 							<p class=" p-float-label">
 								<InputText
@@ -48,12 +52,9 @@
 								>{{ nomInfo }}
 							</InlineMessage>
 						</div>
-					</div>
+					</div> -->
 					<div class="p-grid p-jc-center p-py-0">
-						<div
-							class=" p-lg-4 p-md-5 p-col-11 vertical-container"
-							v-if="!logged || creat"
-						>
+						<div class=" p-lg-4 p-md-5 p-col-11 vertical-container" v-if="mod || creat">
 							<p class="p-float-label ">
 								<InputText
 									class=""
@@ -65,13 +66,17 @@
 							</p>
 							<InlineMessage
 								class="p-lg-6 p-12 "
-								v-if="creat && emailInfo"
+								v-if="emailInfo && mod"
 								severity="error"
 								>{{ emailInfo }}
 							</InlineMessage>
+							<InlineMessage class="" v-if="mod" severity="info"
+								>Saisir un autre email, modifiera votre adresse
+								email.</InlineMessage
+							>
 						</div>
 					</div>
-					<div class="p-grid p-jc-center p-py-0">
+					<!-- <div class="p-grid p-jc-center p-py-0">
 						<div class=" p-lg-4 p-md-5 p-col-11 vertical-container" v-if="mod || creat">
 							<p class="p-float-label">
 								<InputText
@@ -86,7 +91,7 @@
 								>{{ serviceInfo }}
 							</InlineMessage>
 						</div>
-					</div>
+					</div> -->
 					<div class="p-grid p-jc-center p-py-0">
 						<div
 							class=" p-lg-4 p-md-5 p-col-11 vertical-container"
@@ -149,7 +154,7 @@
 							>
 						</div>
 					</div>
-					<div class="p-grid p-jc-center p-py-0">
+					<!-- <div class="p-grid p-jc-center p-py-0">
 						<div class=" p-lg-4 p-md-5 p-col-10 vertical-container" v-if="mod || creat">
 							<p class=" p-float-label">
 								<InputText
@@ -160,15 +165,11 @@
 								/><label for="description">Description</label>
 							</p>
 						</div>
-					</div>
+					</div> -->
 					<div class="p-grid p-jc-center p-py-0">
 						<div class=" p-lg-4 p-md-5 p-col-11 vertical-container" v-if="mod || creat">
 							<p class="">
-								Photo (optionnel) :<input
-									type="file"
-									name="image"
-									@change="onFileChange"
-								/>
+								Photo :<input type="file" name="image" @change="onFileChange" />
 							</p>
 						</div>
 					</div>
@@ -187,7 +188,7 @@
 					<div v-if="!logged && !creat" class="p-grid p-jc-center p-my-5">
 						<Button
 							class="p-md-4 p-col-6"
-							label="Entrer dans le réseau social Groupomania !"
+							label="Entrer dans le réso' Mouto' !"
 							@click="loginUser"
 						/>
 					</div>
@@ -207,21 +208,21 @@
 					/>
 
 					<ConfirmPopup></ConfirmPopup>
-					<Button
+					<!-- <Button
 						label="Supprimer mon compte"
 						class="p-m-2"
 						v-if="logged && !mod"
 						@click="demandDeleteUser($event)"
-					/>
+					/> -->
 				</div>
 			</div>
 			<div class="p-grid">
-				<div class="p-col p-py-0">
+				<!-- <div class="p-col p-py-0">
 					<p v-if="!logged && !creat" style="color:blue;">
 						<span class="p-mx-3">Pas encore de compte ?</span>
 						<Button label="Créer un compte" @click="wantCreate" />
 					</p>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
@@ -422,13 +423,14 @@ export default {
 			this.theInfo = "";
 			axios
 				.post("http://localhost:3001/api/auth/login", {
-					email: this.email,
+					prenom: this.prenom,
 					password: this.password,
 				})
 				.then((resp) => {
 					const { userId, token, isAdmin } = resp.data;
 					localStorage.setItem("token", token);
 					localStorage.setItem("userId", userId);
+					localStorage.setItem("prenom", "Delphine");
 					this.setAdmin(isAdmin);
 					this.$store.dispatch("checkConnect");
 
@@ -438,8 +440,8 @@ export default {
 					if (err.response.data === "Password not OK") {
 						this.theInfo = "Mot de passe incorrect !! !!";
 						this.severity = "error";
-					} else if (err.response.data === "Email not OK") {
-						this.theInfo = "Email incorrect !!";
+					} else if (err.response.data === "Firstname not OK") {
+						this.theInfo = "Prénom incorrect !!";
 						this.severity = "error";
 					}
 				});
@@ -465,7 +467,7 @@ export default {
 					.then((resp) => {
 						this.prenom = resp.data.prenom;
 						this.nom = resp.data.nom;
-						this.service = resp.data.service;
+						this.email = resp.data.email;
 						this.description = resp.data.description;
 						this.photo = resp.data.photo;
 						this.checkData();

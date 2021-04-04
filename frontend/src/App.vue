@@ -19,7 +19,7 @@
 			</div>
 			<div v-if="logged">
 				<p>
-					<i>Vous êtes actuellement connecté.e.</i>
+					<i>Toi, {{ prenom }}, es actuellement connecté(e)</i>
 				</p>
 			</div>
 			<router-view />
@@ -33,6 +33,7 @@ export default {
 	name: "Home",
 	data() {
 		return {
+			prenom: localStorage.getItem("prenom"),
 			items: [],
 			noLog: [
 				{ label: "Home", icon: "pi pi-home", to: "/" },

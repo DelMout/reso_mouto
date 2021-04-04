@@ -51,9 +51,9 @@ exports.signup = (req, res) => {
 
 // * Login
 exports.login = (req, res) => {
-	const email_saisi = req.body.email;
+	const prenom_saisi = req.body.prenom;
 	const password_saisi = req.body.password;
-	user.findOne({ where: { email: email_saisi } })
+	user.findOne({ where: { prenom: prenom_saisi } })
 		.then((user) => {
 			const password = user.password;
 			if (bcrypt.compareSync(password_saisi, password)) {
@@ -74,9 +74,36 @@ exports.login = (req, res) => {
 			}
 		})
 		.catch((err) => {
-			res.status(401).send("Email not OK");
+			res.status(401).send("Firstname not OK");
 		});
 };
+// exports.login = (req, res) => {
+// 	const email_saisi = req.body.email;
+// 	const password_saisi = req.body.password;
+// 	user.findOne({ where: { email: email_saisi } })
+// 		.then((user) => {
+// 			const password = user.password;
+// 			if (bcrypt.compareSync(password_saisi, password)) {
+// 				let token = jwt.sign(
+// 					{ userId: user.id, isAdmin: user.isAdmin },
+// 					process.env.JWT_KEY,
+// 					{
+// 						expiresIn: "1h",
+// 					}
+// 				);
+// 				res.json({
+// 					userId: user.id,
+// 					token: token,
+// 					isAdmin: user.isAdmin,
+// 				});
+// 			} else {
+// 				res.status(401).send("Password not OK");
+// 			}
+// 		})
+// 		.catch((err) => {
+// 			res.status(401).send("Email not OK");
+// 		});
+// };
 
 // * Demand modify (click button)
 exports.demandmodif = (req, res) => {
