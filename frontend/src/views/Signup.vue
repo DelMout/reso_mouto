@@ -198,7 +198,7 @@
 				</div>
 			</div>
 			<div class="p-grid p-jc-center">
-				<div class="p-col p-py-0 p-my-2 ">
+				<div class="p-col p-py-0 p-my-5 ">
 					<Button label="Valider les modifications" v-if="mod" @click="modifUser" /><br />
 					<Button
 						label="Modifier mon compte"
@@ -216,14 +216,14 @@
 					/> -->
 				</div>
 			</div>
-			<div class="p-grid">
-				<!-- <div class="p-col p-py-0">
-					<p v-if="!logged && !creat" style="color:blue;">
+			<!-- <div class="p-grid">
+				<div class="p-col p-py-0">
+					<p v-if="logged && admin" style="color:blue;">
 						<span class="p-mx-3">Pas encore de compte ?</span>
-						<Button label="Créer un compte" @click="wantCreate" />
+						<Button label="Créer un compte utilisateur" @click="wantCreate" />
 					</p>
-				</div> -->
-			</div>
+				</div>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -248,6 +248,7 @@ export default {
 			image: null,
 			creat: false, //phase user creation
 			mod: false, //phase modification user
+			admin: false, //true if administrator profil
 			type: "password",
 			hide: "pi pi-eye",
 			paramUser: {
@@ -264,8 +265,6 @@ export default {
 			serviceTest: "",
 			emailTest: "",
 			prenomInfo: "Merci de renseigner ce champ",
-			nomInfo: "Merci de renseigner ce champ",
-			serviceInfo: "Merci de renseigner ce champ",
 			emailInfo: "Merci de renseigner ce champ",
 			passwordInfo: "Merci de renseigner ce champ",
 			min: "",
@@ -283,6 +282,18 @@ export default {
 	},
 	computed: {
 		...mapState(["token", "userId", "isAdmin", "logged"]),
+	},
+	beforeMount: function() {
+		this.$store.dispatch("checkConnect");
+		if (this.logged) {
+			if (this.isAdmin === 1) {
+				this.admin = true;
+			} else {
+				this.admin = false;
+			}
+		} else {
+			this.admin = false;
+		}
 	},
 	methods: {
 		...mapMutations(["setUserId", "setToken", "setAdmin", "setEmail"]),
@@ -310,28 +321,6 @@ export default {
 				// } else(this.prenom !== null) {
 			} else if (this.prenom === "") {
 				this.prenomInfo = "Merci de renseigner ce champ";
-			}
-
-			if (this.nom !== "") {
-				this.nomTest = !/[^_a-zA-ZÀ-ÿ- ']/.test(this.nom);
-				if (this.nomTest === false) {
-					this.nomInfo = "Caractère non accépté.";
-				} else {
-					this.nomInfo = "";
-				}
-			} else if (this.nom === "") {
-				this.nomInfo = "Merci de renseigner ce champ";
-			}
-
-			if (this.service !== "") {
-				this.serviceTest = !/[^_0-9a-zA-ZÀ-ÿ- ']/.test(this.service);
-				if (this.serviceTest === false) {
-					this.serviceInfo = "Caractère non accépté.";
-				} else {
-					this.serviceInfo = "";
-				}
-			} else if (this.service === "") {
-				this.serviceInfo = "Merci de renseigner ce champ";
 			}
 
 			if (this.password !== "") {
@@ -393,26 +382,32 @@ export default {
 			const formData = new FormData();
 			formData.append("image", this.$data.image);
 			formData.append("prenom", this.$data.prenom);
-			formData.append("nom", this.$data.nom);
+			// formData.append("nom", this.$data.nom);
 			formData.append("email", this.$data.email);
-			formData.append("service", this.$data.service);
-			formData.append("description", this.$data.description);
+			// formData.append("service", this.$data.service);
+			// formData.append("description", this.$data.description);
 			formData.append("password", this.$data.password);
-			axios
-				.post("http://localhost:3001/api/auth/signup", formData)
+			axios({
+				method: "post",
+				url: "http://localhost:3001/api/auth/signup",
+				data: formData,
+				headers: {
+					Authorization: `Bearer ${this.token}`,
+				},
+			})
 				.then((resp) => {
-					const { userId, token, isAdmin } = resp.data;
-					localStorage.setItem("token", token);
-					localStorage.setItem("userId", userId);
-					this.setAdmin(isAdmin);
-					this.$store.dispatch("checkConnect");
-					this.theInfo = "Votre compte a été créé.";
+					// const { userId, token, isAdmin } = resp.data;
+					// localStorage.setItem("token", token);
+					// localStorage.setItem("userId", userId);
+					// this.setAdmin(isAdmin);
+					// this.$store.dispatch("checkConnect");
+					this.theInfo = "Le compte a été créé.";
 					this.severity = "success";
 					this.creat = false;
 				})
 				.catch((err) => {
 					this.theInfo =
-						"Votre compte n'a pas pu être créé. Merci de corriger les paramètres demandés dans le formulaire.";
+						"Le compte n'a pas pu être créé. Merci de corriger les paramètres demandés dans le formulaire.";
 					this.severity = "error";
 				});
 		},
@@ -430,8 +425,11 @@ export default {
 					const { userId, token, isAdmin } = resp.data;
 					localStorage.setItem("token", token);
 					localStorage.setItem("userId", userId);
-					localStorage.setItem("prenom", "Delphine");
+					localStorage.setItem("Admin", isAdmin);
+					console.log(this.prenom);
+					localStorage.setItem("prenom", this.prenom);
 					this.setAdmin(isAdmin);
+					console.log("isadmin :" + isAdmin);
 					this.$store.dispatch("checkConnect");
 
 					this.$router.push("http://localhost:8080/publi");
@@ -490,10 +488,7 @@ export default {
 				this.theInfo = "";
 				const formData = new FormData();
 				formData.append("image", this.$data.image);
-				formData.append("prenom", this.$data.prenom);
-				formData.append("nom", this.$data.nom);
-				formData.append("service", this.$data.service);
-				formData.append("description", this.$data.description);
+				formData.append("email", this.$data.email);
 				formData.append("password", this.$data.password);
 				axios({
 					method: "put",
@@ -518,10 +513,14 @@ export default {
 								let issue = issues[n];
 								this.notStrong.push(this.convers[issue]);
 							}
-							this.theInfo =
-								"Ces conditions pour le mot de passe ne sont pas respectées : " +
-								this.notStrong +
-								".";
+							if (this.passwordInfo || this.min || this.up || this.low || this.num) {
+								this.theInfo =
+									"Ces conditions pour le mot de passe ne sont pas respectées : " +
+									this.notStrong +
+									".";
+							} else {
+								this.theInfo = "L'adresse email saisie n'est pas correcte.";
+							}
 							this.severity = "error";
 						}
 						if (err.response.data.message === "jwt expired") {

@@ -33,7 +33,7 @@ const routes = [
 			if (!store.state.logged) {
 				next({ name: "Home" });
 			} else {
-				if (store.state.isAdmin === 0) {
+				if (localStorage.getItem("Admin") === 0) {
 					next({ name: "Home" });
 				} else {
 					next();
@@ -50,7 +50,7 @@ const routes = [
 			if (!store.state.logged) {
 				next({ name: "Home" });
 			} else {
-				if (store.state.isAdmin === 0) {
+				if (localStorage.getItem("Admin") === 0) {
 					next({ name: "Home" });
 				} else {
 					next();
@@ -67,7 +67,7 @@ const routes = [
 			if (!store.state.logged) {
 				next({ name: "Home" });
 			} else {
-				if (store.state.isAdmin === 0) {
+				if (localStorage.getItem("Admin") === 0) {
 					next({ name: "Home" });
 				} else {
 					next();

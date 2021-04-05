@@ -1,27 +1,31 @@
 <template>
 	<div id="app">
 		<div id="nav">
-			<div id="nav_small" class="p-grid p-mx-5">
-				<Button
-					class="p-button-outlined p-button-help p-button-text"
-					type="button"
-					icon="pi pi-bars"
-					@click="toggle"
-					aria-haspopup="true"
-					aria-controls="overlay_menu"
-				/>
-				<Menu id="overlay_menu" ref="menu" :model="items" :popup="true" />
+			<div class="p-grid p-jc-between">
+				<!-- div avec menu pour petit écran et nom loggé -->
+				<div id="nav_small">
+					<Button
+						class="p-button-outlined p-button-help p-button-text"
+						type="button"
+						icon="pi pi-bars"
+						@click="toggle"
+						aria-haspopup="true"
+						aria-controls="overlay_menu"
+					/>
+					<Menu id="overlay_menu" ref="menu" :model="items" :popup="true" />
+				</div>
+				<div v-if="logged">
+					<p style="background-color:yellow;color:grey;">
+						<i>Bonjour {{ prenom }}, tu es {{ connecte }}</i>
+					</p>
+				</div>
 			</div>
 			<div id="nav_big">
-				<div class="p-grid p-jc-center">
+				<div class="p-grid p-jc-center p-ai-start">
 					<TabMenu :model="items" />
 				</div>
 			</div>
-			<div v-if="logged">
-				<p>
-					<i>Toi, {{ prenom }}, es actuellement connecté(e)</i>
-				</p>
-			</div>
+
 			<router-view />
 		</div>
 	</div>
@@ -33,7 +37,9 @@ export default {
 	name: "Home",
 	data() {
 		return {
-			prenom: localStorage.getItem("prenom"),
+			isAdminLS: 0, // Data from localStorage
+			prenom: "",
+			connecte: "",
 			items: [],
 			noLog: [
 				{ label: "Home", icon: "pi pi-home", to: "/" },
@@ -54,6 +60,7 @@ export default {
 					icon: "pi pi-power-off",
 					command: () => {
 						localStorage.clear();
+						// window.location.reload();
 					},
 					to: "/",
 				},
@@ -71,12 +78,14 @@ export default {
 					icon: "pi pi-power-off",
 					command: () => {
 						localStorage.clear();
+						// window.location.reload();
 					},
 					to: "/",
 				},
 			],
 		};
 	},
+
 	computed: {
 		...mapState(["isAdmin", "logged"]),
 		infoHome() {
@@ -94,20 +103,45 @@ export default {
 	},
 	beforeMount: function() {
 		this.$store.dispatch("checkConnect");
+		this.isAdminLS = parseInt(localStorage.getItem("Admin"));
 		if (this.logged) {
-			if (this.isAdmin === 1) {
+			if (this.isAdminLS === 1) {
 				this.items = this.admin;
 			} else {
 				this.items = this.publish;
 			}
 		} else {
 			this.items = this.noLog;
+		}
+		// if (this.logged) {
+		// 	if (this.isAdmin === 1) {
+		// 		this.items = this.admin;
+		// 	} else {
+		// 		this.items = this.publish;
+		// 	}
+		// } else {
+		// 	this.items = this.noLog;
+		// }
+		this.prenom = localStorage.getItem("prenom");
+		if (
+			this.prenom === "Bertrand" ||
+			this.prenom === "Christophe" ||
+			this.prenom === "Axel" ||
+			this.prenom === "Maxym" ||
+			this.prenom === "Quentin" ||
+			this.prenom === "Morgan"
+		) {
+			this.connecte = "connecté";
+		} else {
+			this.connecte = "connectée";
 		}
 	},
 	updated: function() {
 		this.$store.dispatch("checkConnect");
+		this.isAdminLS = parseInt(localStorage.getItem("Admin"));
+
 		if (this.logged) {
-			if (this.isAdmin === 1) {
+			if (this.isAdminLS === 1) {
 				this.items = this.admin;
 			} else {
 				this.items = this.publish;
@@ -115,6 +149,7 @@ export default {
 		} else {
 			this.items = this.noLog;
 		}
+		this.prenom = localStorage.getItem("prenom");
 	},
 };
 </script>

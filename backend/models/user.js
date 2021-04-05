@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 			prenom: {
 				type: DataTypes.STRING,
 				allowNull: false,
+				unique: true,
 				validate: {
 					notEmpty: true,
 					is: ["^[a-zÀ-ÿ-]+$", "i"],
@@ -23,7 +24,6 @@ module.exports = (sequelize, DataTypes) => {
 			email: {
 				type: DataTypes.STRING,
 				allowNull: false,
-				unique: true,
 				validate: {
 					isEmail: true,
 					notEmpty: true,

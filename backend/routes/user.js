@@ -11,7 +11,7 @@ const admin = require("../middleware/isAdmin"); // Request authentification for 
 router.get("/users", userCtrl.getAllUsers);
 
 // * Sign Up
-router.post("/signup", multer, userCtrl.signup);
+router.post("/signup", admin, multer, userCtrl.signup);
 
 // * Login
 router.post("/login", userCtrl.login);
@@ -20,7 +20,7 @@ router.post("/login", userCtrl.login);
 router.get("/modif/:userid", auth, userCtrl.demandmodif);
 
 // * Modify user datas
-router.put("/modif/:userid", auth, multer, userCtrl.modif);
+router.put("/modif/:userid", multer, userCtrl.modif); //! auth retiré !
 
 // * Delete user
 router.delete("/delete/:userid", auth, multer, userCtrl.delete);
