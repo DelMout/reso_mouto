@@ -18,6 +18,7 @@ const routes = [
 		name: "Publication",
 		component: () => import(/* webpackChunkName: "publication" */ "../views/Publication.vue"),
 	},
+
 	{
 		path: "/publier",
 		name: "Publier",
@@ -31,10 +32,10 @@ const routes = [
 		beforeEnter: (to, from, next) => {
 			store.dispatch("checkConnect");
 			if (!store.state.logged) {
-				next({ name: "Home" });
+				next({ name: "Signup" });
 			} else {
 				if (localStorage.getItem("Admin") === 0) {
-					next({ name: "Home" });
+					next({ name: "Signup" });
 				} else {
 					next();
 				}
@@ -48,10 +49,10 @@ const routes = [
 		beforeEnter: (to, from, next) => {
 			store.dispatch("checkConnect");
 			if (!store.state.logged) {
-				next({ name: "Home" });
+				next({ name: "Signup" });
 			} else {
 				if (localStorage.getItem("Admin") === 0) {
-					next({ name: "Home" });
+					next({ name: "Signup" });
 				} else {
 					next();
 				}
@@ -65,10 +66,10 @@ const routes = [
 		beforeEnter: (to, from, next) => {
 			store.dispatch("checkConnect");
 			if (!store.state.logged) {
-				next({ name: "Home" });
+				next({ name: "Signup" });
 			} else {
 				if (localStorage.getItem("Admin") === 0) {
-					next({ name: "Home" });
+					next({ name: "Signup" });
 				} else {
 					next();
 				}
@@ -86,7 +87,7 @@ router.beforeEach((to, from, next) => {
 	store.dispatch("checkConnect");
 	if (to.meta.requiresAuth) {
 		if (!store.state.logged) {
-			next({ name: "Home" });
+			next({ name: "Signup" });
 		} else {
 			next();
 		}
