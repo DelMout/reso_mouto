@@ -16,6 +16,9 @@ router.post("/signup", admin, multer, userCtrl.signup);
 // * Login
 router.post("/login", userCtrl.login);
 
+// * Update last connection date
+router.put("/login/:userid", userCtrl.lastconn); //! rajouter auth  !
+
 // * Demand Modify user datas
 router.get("/modif/:userid", auth, userCtrl.demandmodif);
 

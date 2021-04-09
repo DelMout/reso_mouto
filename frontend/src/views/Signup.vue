@@ -1,14 +1,46 @@
 <template>
 	<div>
-		<h1 v-if="!logged">
-			Pour accéder au réseau social familial Réso' Mouto', <br />tu dois renseigner les
-			informations suivantes
-		</h1>
+		<!-- Quand non connecté -->
+		<div v-if="!logged">
+			<h1>Réso' Mouto'</h1>
+			<h2>Bienvenue sur votre Réseau Social Familial Mouto !</h2>
+			<div v-if="infoHome" class="p-grid p-jc-center">
+				<Message severity="warn">{{ infoHome }} </Message>
+			</div>
+			<h3>
+				Réso' Mouto'<br />
+				Il est jamais trop tôt<br />
+				Pour écrire un mot !
+			</h3>
 
+			<img
+				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				id="dedee"
+				alt="dédee"
+				src="../assets/dedee.png"
+			/>
+			<img
+				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				id="aurelie"
+				alt="aurélie"
+				src="../assets/aurelie.png"
+			/>
+			<img
+				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				id="delphine"
+				alt="delphine"
+				src="../assets/delphine.png"
+			/>
+			<img
+				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				id="axel"
+				alt="axel"
+				src="../assets/axel.png"
+			/>
+		</div>
+		<!-- Formulaire "login" ou "modif" -->
 		<div>
-			<h1 v-if="mod">
-				Merci de renseigner le formulaire ci-dessous
-			</h1>
+			<h1 v-if="mod && logged">{{ prenom }}, Tu peux ici modifier tes données</h1>
 			<div class="p-grid p-jc-center">
 				<div class="p-lg-4 p-md-6 p-col-10">
 					<Message v-if="theInfo" :severity="severity" :life="7000" :sticky="false">{{
@@ -54,7 +86,10 @@
 						</div>
 					</div> -->
 					<div class="p-grid p-jc-center p-py-0">
-						<div class=" p-lg-4 p-md-5 p-col-11 vertical-container" v-if="mod || creat">
+						<div
+							class=" p-lg-4 p-md-5 p-col-11 vertical-container"
+							v-if="(mod && logged) || creat & logged"
+						>
 							<p class="p-float-label ">
 								<InputText
 									class=""
@@ -66,13 +101,12 @@
 							</p>
 							<InlineMessage
 								class="p-lg-6 p-12 "
-								v-if="emailInfo && mod"
+								v-if="emailInfo && mod & logged"
 								severity="error"
 								>{{ emailInfo }}
 							</InlineMessage>
-							<InlineMessage class="" v-if="mod" severity="info"
-								>Saisir un autre email, modifiera votre adresse
-								email.</InlineMessage
+							<InlineMessage class="" v-if="mod && logged" severity="info"
+								>Saisir un autre email, modifiera ton adresse email.</InlineMessage
 							>
 						</div>
 					</div>
@@ -95,7 +129,7 @@
 					<div class="p-grid p-jc-center p-py-0">
 						<div
 							class=" p-lg-4 p-md-5 p-col-11 vertical-container"
-							v-if="!logged || mod || creat"
+							v-if="!logged || (mod && logged) || (creat && logged)"
 						>
 							<p class="">
 								<span class="p-float-label  p-p-0">
@@ -115,41 +149,44 @@
 							</p>
 							<InlineMessage
 								class="p-lg-6 p-12 "
-								v-if="(mod && passwordInfo) || (creat && passwordInfo)"
+								v-if="
+									(mod && passwordInfo && logged) ||
+										(creat && passwordInfo && logged)
+								"
 								severity="error"
 							>
 								{{ passwordInfo }}
 							</InlineMessage>
 							<InlineMessage
 								class="p-lg-5 p-12 "
-								v-if="(mod && min) || (creat && min)"
+								v-if="(mod && min && logged) || (creat && min && logged)"
 								severity="error"
 							>
 								{{ min }}
 							</InlineMessage>
 							<InlineMessage
 								class="p-lg-5 p-12 "
-								v-if="(mod && up) || (creat && up)"
+								v-if="(mod && up && logged) || (creat && up && logged)"
 								severity="error"
 							>
 								{{ up }}
 							</InlineMessage>
 							<InlineMessage
 								class="p-lg-5 p-12"
-								v-if="(mod && low) || (creat && low)"
+								v-if="(mod && low && logged) || (creat && low && logged)"
 								severity="error"
 							>
 								{{ low }}
 							</InlineMessage>
 							<InlineMessage
 								class="p-lg-4 p-12"
-								v-if="(mod && num) || (creat && num)"
+								v-if="(mod && num && logged) || (creat && num && logged)"
 								severity="error"
 							>
 								{{ num }}
 							</InlineMessage>
-							<InlineMessage class="" v-if="mod" severity="info"
-								>Saisir un autre mot de passe, modifiera votre mot de
+							<InlineMessage class="" v-if="mod && logged" severity="info"
+								>Saisir un autre mot de passe, modifiera ton mot de
 								passe.</InlineMessage
 							>
 						</div>
@@ -167,20 +204,23 @@
 						</div>
 					</div> -->
 					<div class="p-grid p-jc-center p-py-0">
-						<div class=" p-lg-4 p-md-5 p-col-11 vertical-container" v-if="mod || creat">
+						<div
+							class=" p-lg-4 p-md-5 p-col-11 vertical-container"
+							v-if="(mod && logged) || (creat && logged)"
+						>
 							<p class="">
 								Photo :<input type="file" name="image" @change="onFileChange" />
 							</p>
 						</div>
 					</div>
 
-					<div class="p-grid p-jc-center " v-if="photo != null && mod">
+					<div class="p-grid p-jc-center " v-if="photo != null && mod && logged">
 						<div class=" p-lg-4 p-md-5 p-col-11 vertical-container">
-							<span>Votre photo actuelle : </span
+							<span>Ta photo actuelle : </span
 							><img id="photoUser" :src="photo" alt="photo utilisateur" />
 						</div>
 					</div>
-					<div class="p-grid p-jc-center p-mt-2 " v-if="photo === null && mod">
+					<div class="p-grid p-jc-center p-mt-2 " v-if="photo === null && mod && logged">
 						<InlineMessage class="p-lg-4 p-md-5 p-col-10" severity="info"
 							>Vous n'avez pas de photo actuellement.</InlineMessage
 						>
@@ -188,7 +228,7 @@
 					<div v-if="!logged && !creat" class="p-grid p-jc-center p-my-5">
 						<Button
 							class="p-md-4 p-col-6"
-							label="Entrer dans le réso' Mouto' !"
+							label="Par ici pour rentrer dans le Réso' Mouto' !"
 							@click="loginUser"
 						/>
 					</div>
@@ -199,13 +239,17 @@
 			</div>
 			<div class="p-grid p-jc-center">
 				<div class="p-col p-py-0 p-my-5 ">
-					<Button label="Valider les modifications" v-if="mod" @click="modifUser" /><br />
 					<Button
+						label="Valider les modifications"
+						v-if="mod && logged"
+						@click="modifUser"
+					/><br />
+					<!-- <Button
 						label="Modifier mon compte"
 						class="p-m-2"
 						v-if="logged && !mod"
 						@click="demandModifUser"
-					/>
+					/> -->
 
 					<ConfirmPopup></ConfirmPopup>
 					<!-- <Button
@@ -281,11 +325,12 @@ export default {
 		};
 	},
 	computed: {
-		...mapState(["token", "userId", "isAdmin", "logged"]),
+		...mapState(["infoHome", "token", "userId", "isAdmin", "logged"]),
 	},
 	beforeMount: function() {
 		this.$store.dispatch("checkConnect");
 		if (this.logged) {
+			this.demandModifUser();
 			if (this.isAdmin === 1) {
 				this.admin = true;
 			} else {
@@ -431,8 +476,12 @@ export default {
 					this.setAdmin(isAdmin);
 					console.log("isadmin :" + isAdmin);
 					this.$store.dispatch("checkConnect");
-
-					this.$router.push("http://localhost:8080/publi");
+					//update last connection date in users table
+					axios
+						.put("http://localhost:3001/api/auth/login/" + this.$store.state.userId)
+						.then(() => {
+							this.$router.push("http://localhost:8080/publi");
+						});
 				})
 				.catch((err) => {
 					if (err.response.data === "Password not OK") {

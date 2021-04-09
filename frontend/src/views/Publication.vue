@@ -1,6 +1,9 @@
 <template>
 	<div>
-		<h1>{{ theInfo }}</h1>
+		<Button class="p-mt-5" :label="mesLes" v-if="logged" @click="mesOuLes" />
+		<!-- revenir à visu des publi ou un seul bouton en toggle qui change d'intitulé une fois cliqué dessus-->
+
+		<h1 class="p-mt-5 p-mb-0">{{ theInfo }}</h1>
 		<div class="p-grid p-jc-center p-mb-6">
 			<div class=" p-lg-2 p-md-6 p-col-10 p-toast ">
 				<div class="">
@@ -22,11 +25,12 @@
 		</div>
 
 		<!-- loop to display all publications -->
+
 		<div v-for="pub in publica" :key="pub.index" class=" p-grid vertical-container p-mt-3 ">
 			<div class="p-mx-auto p-col">
 				<div class="p-grid p-jc-center">
 					<div class=" p-card p-shadow-6  p-lg-4 p-md-8 p-col-12  p-p-lg-5 p-p-3 p-my-2 ">
-						<Author class="p-mx-auto" :item="pub" />
+						<Author class="p-mx-auto p-text-left" :item="pub" />
 						<h2 class="p-card-title p-mx-auto ">
 							{{ pub.titre }}
 						</h2>
@@ -58,25 +62,18 @@
 				</div>
 			</div>
 		</div>
-		<Button
+		<!-- <Button
 			class="p-m-2"
 			label="Revenir sur les publications"
 			v-if="seePub"
 			v-on:click="backToPublications"
-		/>
+		/> -->
 
 		<Button
 			class="p-m-2"
 			label="Voir plus de publications"
 			v-if="more"
 			v-on:click="seeMorePublications"
-		/>
-
-		<Button
-			class="p-m-2"
-			label="Voir vos publications"
-			v-if="mine && logged"
-			v-on:click="seeMinePublications"
 		/>
 	</div>
 </template>
@@ -107,6 +104,7 @@ export default {
 			seeDel: false,
 			photo: "",
 			infoDelete: false,
+			mesLes: "Seulement mes publications",
 		};
 	},
 	created: function() {
@@ -119,6 +117,20 @@ export default {
 		...mapActions(["checkConnect"]),
 	},
 	methods: {
+		//* Mine OR All publications
+		mesOuLes: function() {
+			if (this.mine) {
+				this.mesLes = "Seulement mes publications";
+				this.seeMinePublications();
+			} else {
+				this.mesLes = "Toutes les publications";
+				this.publica = [];
+				this.qtyMore = 0;
+				this.seePublications();
+				this.infoDelete = false;
+			}
+		},
+
 		//* SELECT MORE publications
 		seeMorePublications: function() {
 			this.qtyMore += 1;
@@ -130,14 +142,17 @@ export default {
 			this.qtyMore = 0;
 			this.mine = true;
 			this.seePublications();
-			this.theInfo = "Les publications du Réseau Groupomania";
+			this.theInfo = "Les publications du Réso' Mouto'";
 			this.seeDel = false;
 		},
 		//* SELECT 5 PUBLICATIONS
 		seePublications: function() {
+			this.mine = true;
+			this.mesLes = "Seulement mes publications";
 			this.seePub = false;
 			this.del = false;
 			this.seeDel = false;
+			this.theInfo = "Les publications du Réso' Mouto'";
 			axios.get("http://localhost:3001/api/pub").then((resp) => {
 				this.qtyPub = resp.data.length;
 				if (resp.data.length > parseInt(5 + 5 * this.qtyMore)) {
@@ -178,8 +193,9 @@ export default {
 				this.$router.push("/");
 			} else {
 				this.mine = false;
+				this.mesLes = "Toutes les publications";
 				this.more = false;
-				this.theInfo = "Vos publications du Réseau Groupomania";
+				this.theInfo = "Tes publications ";
 				this.publica = [];
 				this.seePub = true;
 				this.del = false;
@@ -196,7 +212,7 @@ export default {
 						this.qtyPub = resp.data.length;
 						if (resp.data.length === 0) {
 							this.theInfo =
-								"Vous n'avez pas encore de publications sur le Réseau Groupomania !";
+								"Tu n'as pas encore de publications sur le Réso' Mouto' !";
 						}
 						for (let i = 0; i < this.qtyPub; i++) {
 							//* Get total of likes

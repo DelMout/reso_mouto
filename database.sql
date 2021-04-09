@@ -12,6 +12,7 @@ email VARCHAR(255) NOT NULL,
 -- service VARCHAR(255) NOT NULL,
 -- description VARCHAR(255),
 password VARCHAR(255) NOT NULL,
+date_signup DATE NOT NULL,
 last_connect DATE NOT NULL,
 photo VARCHAR(255),
 isAdmin TINYINT DEFAULT 0

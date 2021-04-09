@@ -57,5 +57,8 @@ export default createStore({
 				context.commit("IS_FALSE");
 			}
 		},
+		disconnect(context) {
+			context.commit("IS_FALSE");
+		},
 	},
 });

@@ -10,9 +10,31 @@
 			Il est jamais trop tôt<br />
 			Pour écrire un mot !
 		</h3>
-		<img id="dedee" alt="dédee" src="../assets/dedee.png" />
-		<img id="aurelie" alt="aurélie" src="../assets/aurelie.png" />
-		<img id="delphine" alt="delphine" src="../assets/delphine.png" />
+
+		<img
+			class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+			id="dedee"
+			alt="dédee"
+			src="../assets/dedee.png"
+		/>
+		<img
+			class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+			id="aurelie"
+			alt="aurélie"
+			src="../assets/aurelie.png"
+		/>
+		<img
+			class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+			id="delphine"
+			alt="delphine"
+			src="../assets/delphine.png"
+		/>
+		<img
+			class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+			id="axel"
+			alt="axel"
+			src="../assets/axel.png"
+		/>
 	</div>
 </template>
 
@@ -26,18 +48,12 @@ export default {
 };
 </script>
 <style>
-#logo {
-	width: 30rem;
-}
 /* MEDIA QUERIES */
 
 @media only screen and (max-width: 768px) {
 	/*tablettes et mobiles */
 	h1 {
 		font-size: 1.5rem;
-	}
-	#logo {
-		width: 20rem;
 	}
 }
 </style>

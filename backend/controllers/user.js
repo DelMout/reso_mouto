@@ -177,6 +177,23 @@ exports.modif = (req, res) => {
 	}
 };
 
+//* Update connexion date
+exports.lastconn = (req, res) => {
+	user.update(
+		{
+			last_connect: Date(),
+		},
+		{ where: { id: req.params.userid } }
+	)
+		.then(() => {
+			res.send("user modified !");
+		})
+		.catch((err) => {
+			res.status(401).send(err);
+			// res.status(401).send(err.errors[0].validatorKey);
+		});
+};
+
 // * Delete user
 exports.delete = (req, res) => {
 	user.findOne({ where: { id: req.params.userid } })

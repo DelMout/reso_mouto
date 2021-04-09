@@ -42,39 +42,49 @@ export default {
 			connecte: "",
 			items: [],
 			noLog: [
-				{ label: "Home", icon: "pi pi-home", to: "/" },
-				{ label: "Mon compte", icon: "pi pi-id-card", to: "/signup" },
-				{ label: "Les publications", icon: "pi pi-copy", to: "/publi" },
+				// { label: "Home", icon: "pi pi-home", to: "/" },
+				{ to: "/" },
+				// { label: "Home", icon: "pi pi-home", to: "/" },
+				// { label: "Mon compte", icon: "pi pi-id-card", to: "/signup" },
+				// { label: "Les publications", icon: "pi pi-copy", to: "/publi" },
 			],
 			publish: [
-				{ label: "Home", icon: "pi pi-home", to: "/" },
-				{ label: "Mon compte", icon: "pi pi-id-card", to: "/signup" },
+				// { label: "Home", icon: "pi pi-home", to: "/" },
+				{
+					label: "Mon compte",
+					icon: "pi pi-id-card",
+					// command: () => {
+					// 	window.location.reload();
+					// },
+					to: "/",
+				},
 				{ label: "Les publications", icon: "pi pi-copy", to: "/publi" },
 				{
-					label: "Créer publications",
+					label: "Je veux publier",
 					icon: "pi pi-pencil",
 					to: "/publier",
 				},
 				{
-					label: "Se déconnecter",
+					label: "Me déconnecter",
 					icon: "pi pi-power-off",
 					command: () => {
 						localStorage.clear();
+						this.$store.dispatch("disconnect");
 						// window.location.reload();
 					},
 					to: "/",
 				},
 			],
 			admin: [
-				{ label: "Home", icon: "pi pi-home", to: "/" },
-				{ label: "Mon compte", icon: "pi pi-id-card", to: "/signup" },
+				// { label: "Home", icon: "pi pi-home", to: "/" },
+				{ label: "Mon compte", icon: "pi pi-id-card", to: "/" },
 				{ label: "Les publications", icon: "pi pi-copy", to: "/publi" },
-				{ label: "Créer publications", icon: "pi pi-pencil", to: "/publier" },
+				// { label: "Créer publications", icon: "pi pi-pencil", to: "/publier" },
 				{ label: "Utilisateurs", icon: "pi pi-star", to: "/admin/users" },
 				{ label: "Publications", icon: "pi pi-star", to: "/admin/publications" },
 				{ label: "Commentaires", icon: "pi pi-star", to: "/admin/comments" },
 				{
-					label: "Se déconnecter",
+					label: "Me déconnecter",
 					icon: "pi pi-power-off",
 					command: () => {
 						localStorage.clear();
@@ -122,6 +132,21 @@ export default {
 		// } else {
 		// 	this.items = this.noLog;
 		// }
+		this.prenom = localStorage.getItem("prenom");
+		if (
+			this.prenom === "Bertrand" ||
+			this.prenom === "Christophe" ||
+			this.prenom === "Axel" ||
+			this.prenom === "Maxym" ||
+			this.prenom === "Quentin" ||
+			this.prenom === "Morgan"
+		) {
+			this.connecte = "connecté";
+		} else {
+			this.connecte = "connectée";
+		}
+	},
+	beforeUpdate: function() {
 		this.prenom = localStorage.getItem("prenom");
 		if (
 			this.prenom === "Bertrand" ||

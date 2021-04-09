@@ -48,9 +48,13 @@ module.exports = (sequelize, DataTypes) => {
 					notEmpty: true,
 				},
 			},
-			last_connect: {
+			date_signup: {
 				type: DataTypes.DATEONLY,
 				defaultValue: DataTypes.NOW,
+				allowNull: false,
+			},
+			last_connect: {
+				type: DataTypes.DATEONLY,
 				allowNull: false,
 			},
 			photo: {

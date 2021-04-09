@@ -4,12 +4,12 @@ import store from "../store/index.js";
 
 const routes = [
 	{
-		path: "/",
+		path: "/home",
 		name: "Home",
 		component: Home,
 	},
 	{
-		path: "/signup",
+		path: "/",
 		name: "Signup",
 		component: () => import(/* webpackChunkName: "signup" */ "../views/Signup.vue"),
 	},
