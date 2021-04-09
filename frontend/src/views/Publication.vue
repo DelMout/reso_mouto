@@ -167,20 +167,20 @@ export default {
 					// 	.get("http://localhost:3001/api/pub/" + resp.data[i].id + "/like/")
 					// 	.then((respo) => {
 					// 		//* get total of comments
-					// 		axios
-					// 			.get("http://localhost:3001/api/pub/" + resp.data[i].id + "/comm/")
-					// 			.then((rep) => {
-					this.publica.push({
-						index: resp.data[i].id,
-						titre: resp.data[i].titre,
-						contenu: resp.data[i].texte_pub,
-						date: resp.data[i].date_crea_pub,
-						userId: resp.data[i].userId,
-						photo: resp.data[i].photo,
-						// comm: rep.data.length,
-						// likes: respo.data.length,
-					});
-					// 		});
+					axios
+						.get("http://localhost:3001/api/pub/" + resp.data[i].id + "/comm/")
+						.then((rep) => {
+							this.publica.push({
+								index: resp.data[i].id,
+								titre: resp.data[i].titre,
+								contenu: resp.data[i].texte_pub,
+								date: resp.data[i].date_crea_pub,
+								userId: resp.data[i].userId,
+								photo: resp.data[i].photo,
+								comm: rep.data.length,
+								// likes: respo.data.length,
+							});
+						});
 					// });
 				}
 			});

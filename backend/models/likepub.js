@@ -1,7 +1,7 @@
 const { Sequelize } = require(".");
 
 module.exports = (sequelize, DataTypes) => {
-	const likepub = sequelize.define(
+	const likep = sequelize.define(
 		"likepub",
 		{
 			symbol: {
@@ -14,5 +14,5 @@ module.exports = (sequelize, DataTypes) => {
 			timestamps: false,
 		}
 	);
-	return likepub;
+	return likep;
 };
