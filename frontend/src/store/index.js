@@ -20,7 +20,7 @@ export default createStore({
 			state.isAdmin = isAdmin;
 		},
 		setInfo(state) {
-			state.infoHome = "Votre session a expiré.";
+			state.infoHome = "Ta session a expiré.";
 		},
 		IS_TRUE(state) {
 			state.logged = true;

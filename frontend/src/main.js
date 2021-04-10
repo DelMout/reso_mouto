@@ -18,6 +18,7 @@ import Toast from "primevue/toast";
 import Textarea from "primevue/textarea";
 import TabMenu from "primevue/tabmenu";
 import Menu from "primevue/menu";
+import OverlayPanel from "primevue/overlaypanel";
 
 import "primevue/resources/themes/mdc-light-deeppurple/theme.css"; //theme
 import "primevue/resources/primevue.min.css"; //core css
@@ -39,6 +40,7 @@ createApp(App)
 	.component("Textarea", Textarea)
 	.component("TabMenu", TabMenu)
 	.component("Menu", Menu)
+	.component("OverlayPanel", OverlayPanel)
 	.use(store)
 	.use(router)
 	.mount("#app");

@@ -29,8 +29,10 @@
 		<div v-for="pub in publica" :key="pub.index" class=" p-grid vertical-container p-mt-3 ">
 			<div class="p-mx-auto p-col">
 				<div class="p-grid p-jc-center">
-					<div class=" p-card p-shadow-6  p-lg-4 p-md-8 p-col-12  p-p-lg-5 p-p-3 p-my-2 ">
-						<Author class="p-mx-auto p-text-left" :item="pub" />
+					<div
+						class=" p-card p-shadow-6  p-lg-4 p-md-8 p-col-12  p-p-lg-5 p-py-3 p-my-2 "
+					>
+						<Author class="p-mx-0 p-text-left" :item="pub" />
 						<h2 class="p-card-title p-mx-auto ">
 							{{ pub.titre }}
 						</h2>
@@ -45,9 +47,11 @@
 							/>
 						</div>
 						<div class="p-card-footer p-mx-auto  ">
+							<div class="p-grid" style="background-color:blue;">
+								<Like class=" p-col-6" :pub="pub" />
+							</div>
 							<div class="p-grid">
-								<!-- <Like class=" p-col-1" :pub="pub" /> -->
-								<Comment class="p-col-11 " :pub="pub" />
+								<Comment class="p-col-12 " :pub="pub" />
 							</div>
 
 							<ConfirmPopup></ConfirmPopup>
@@ -161,27 +165,61 @@ export default {
 				} else {
 					this.more = false;
 				}
-				//* Get total of likes
+				//* Get total of hearts
 				for (let i = parseInt(5 * this.qtyMore); i < this.qtyPub; i++) {
-					// axios
-					// 	.get("http://localhost:3001/api/pub/" + resp.data[i].id + "/like/")
-					// 	.then((respo) => {
-					// 		//* get total of comments
 					axios
-						.get("http://localhost:3001/api/pub/" + resp.data[i].id + "/comm/")
-						.then((rep) => {
-							this.publica.push({
-								index: resp.data[i].id,
-								titre: resp.data[i].titre,
-								contenu: resp.data[i].texte_pub,
-								date: resp.data[i].date_crea_pub,
-								userId: resp.data[i].userId,
-								photo: resp.data[i].photo,
-								comm: rep.data.length,
-								// likes: respo.data.length,
-							});
+						.get("http://localhost:3001/api/pub/" + resp.data[i].id + "/count/heart")
+						.then((respHeart) => {
+							//* Get total of thumbs
+							axios
+								.get(
+									"http://localhost:3001/api/pub/" +
+										resp.data[i].id +
+										"/count/thumb"
+								)
+								.then((respThumb) => {
+									//* Get total of grins
+									axios
+										.get(
+											"http://localhost:3001/api/pub/" +
+												resp.data[i].id +
+												"/count/grin"
+										)
+										.then((respGrin) => {
+											//* Get total of sads
+											axios
+												.get(
+													"http://localhost:3001/api/pub/" +
+														resp.data[i].id +
+														"/count/sad"
+												)
+												.then((respSad) => {
+													// 		//* get total of comments
+													axios
+														.get(
+															"http://localhost:3001/api/pub/" +
+																resp.data[i].id +
+																"/comm/"
+														)
+														.then((rep) => {
+															this.publica.push({
+																index: resp.data[i].id,
+																titre: resp.data[i].titre,
+																contenu: resp.data[i].texte_pub,
+																date: resp.data[i].date_crea_pub,
+																userId: resp.data[i].userId,
+																photo: resp.data[i].photo,
+																comm: rep.data.length,
+																heart: respHeart.data.count,
+																thumb: respThumb.data.count,
+																grin: respGrin.data.count,
+																sad: respSad.data.count,
+															});
+														});
+												});
+										});
+								});
 						});
-					// });
 				}
 			});
 		},

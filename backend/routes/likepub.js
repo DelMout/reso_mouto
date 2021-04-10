@@ -12,6 +12,10 @@ router.post("/:pubid/like/:userid/", likepubCtrl.addLike); //! auth retiré !
 router.get("/:pubid/like/", likepubCtrl.countLike);
 
 // TODO fonctionne
+// * Give symbol selected by user
+router.get("/:pubid/user/:userid", likepubCtrl.whichSymbol);
+
+// TODO fonctionne
 // * Count each symbol
 router.get("/:pubid/count/:symbol", likepubCtrl.countSymbol);
 

@@ -8,20 +8,20 @@
 		</div>
 		<div class="p-pb-1 p-my-3" v-for="com in allComments" :key="com">
 			<div class="p-grid ">
-				<div class="p-col-11 ">
+				<div class="p-col-11 p-px-5">
 					<Author class="" :item="com" />
 				</div>
 			</div>
 			<div class="p-grid ">
-				<div class="p-col-11">
-					<p class="p-text-justify p-my-0">
+				<div class="p-col-12">
+					<p class="p-text-justify p-my-0 p-px-5" style="background-color:yellow;">
 						{{ com.texte }}
 					</p>
 				</div>
 			</div>
 		</div>
 		<div v-if="seeComm" class="p-grid p-ai-end vertical-container p-mt-2">
-			<div class="p-col-11 p-as-start p-float-label p-text-left">
+			<div class="p-col-12 p-as-start p-float-label p-text-left">
 				<Textarea v-model="commentUser" :autoResize="true" rows="3" :cols="col" />
 
 				<label>Votre commentaire</label
@@ -48,7 +48,7 @@ export default {
 			seeComm: false,
 			commentUser: "",
 			noConnected: false,
-			col: 40,
+			col: 50,
 		};
 	},
 	components: {
@@ -63,7 +63,7 @@ export default {
 			this.col = 30;
 		}
 		if (window.matchMedia("(max-width:576px)").matches) {
-			this.col = 15;
+			this.col = 20;
 		}
 	},
 	methods: {

@@ -56,8 +56,23 @@ exports.countSymbol = (req, res) => {
 			where: { publicationId: req.params.pubid, symbol: req.params.symbol },
 		})
 		.then((resp) => {
-			console.log(resp.count); // Donne qty du symbol
-			// res.send(resp); //! dans front prendre resp.data.count en appliquant ce res.send
+			// console.log(resp.count); // Donne qty du symbol
+			res.send(resp); //! dans front prendre resp.data.count en appliquant ce res.send
+		})
+		.catch((err) => {
+			res.send(err);
+		});
+};
+
+//TODO Fonctionne !!!
+//* Give symbol selected by user
+exports.whichSymbol = (req, res) => {
+	likepub
+		.findOne({
+			where: { publicationId: req.params.pubid, userId: req.params.userid },
+		})
+		.then((resp) => {
+			res.send(resp.symbol);
 		})
 		.catch((err) => {
 			res.send(err);
@@ -100,12 +115,14 @@ exports.addSymbol = (req, res) => {
 						where: {
 							publicationId: req.params.pubid,
 							userId: req.params.userid,
-							symbol: req.params.symbol,
+							// symbol: req.params.symbol,
 						},
 					})
 					.then((respon) => {
+						const prevSymbol = respon.symbol;
+						// res.send(prevSymbol);
 						// if symbol different
-						if (respon === null) {
+						if (prevSymbol !== req.params.symbol) {
 							// user already liked. Symbol updated
 							likepub
 								.update(
@@ -117,8 +134,9 @@ exports.addSymbol = (req, res) => {
 										},
 									}
 								)
-								.then(() => {
-									res.send("symbol modified !");
+								.then((resp) => {
+									// res.send(respon);
+									res.send(prevSymbol);
 								})
 								.catch((err) => {
 									res.send(err);
