@@ -33,9 +33,7 @@
 						class=" p-card p-shadow-6  p-lg-4 p-md-8 p-col-12  p-p-lg-5 p-py-3 p-my-2 "
 					>
 						<Author class="p-mx-0 p-text-left" :item="pub" />
-						<h2 class="p-card-title p-mx-auto ">
-							{{ pub.titre }}
-						</h2>
+						<h2 class="p-card-title p-mx-auto ">{{ pub.titre }}</h2>
 						<div class="p-card-content p-mx-auto">
 							<p class="p-text-justify p-mb-3">{{ pub.contenu }}</p>
 							<img
@@ -46,9 +44,9 @@
 								title="pub-img"
 							/>
 						</div>
-						<div class="p-card-footer p-mx-auto  ">
-							<div class="p-grid" style="background-color:blue;">
-								<Like class=" p-col-6" :pub="pub" />
+						<div class="p-card-footer p-mx-auto">
+							<div class="p-grid">
+								<Like class=" p-col-6 p-ml-2" :pub="pub" />
 							</div>
 							<div class="p-grid">
 								<Comment class="p-col-12 " :pub="pub" />
@@ -111,6 +109,7 @@ export default {
 			mesLes: "Seulement mes publications",
 		};
 	},
+
 	created: function() {
 		this.qtyMore = 0;
 		this.seePublications();
@@ -202,19 +201,33 @@ export default {
 																"/comm/"
 														)
 														.then((rep) => {
-															this.publica.push({
-																index: resp.data[i].id,
-																titre: resp.data[i].titre,
-																contenu: resp.data[i].texte_pub,
-																date: resp.data[i].date_crea_pub,
-																userId: resp.data[i].userId,
-																photo: resp.data[i].photo,
-																comm: rep.data.length,
-																heart: respHeart.data.count,
-																thumb: respThumb.data.count,
-																grin: respGrin.data.count,
-																sad: respSad.data.count,
-															});
+															//* get symbol selected by user
+															axios
+																.get(
+																	"http://localhost:3001/api/pub/" +
+																		resp.data[i].id +
+																		"/user/" +
+																		this.$store.state.userId
+																)
+																.then((repSymb) => {
+																	this.publica.push({
+																		index: resp.data[i].id,
+																		titre: resp.data[i].titre,
+																		contenu:
+																			resp.data[i].texte_pub,
+																		date:
+																			resp.data[i]
+																				.date_crea_pub,
+																		userId: resp.data[i].userId,
+																		photo: resp.data[i].photo,
+																		comm: rep.data.length,
+																		heart: respHeart.data.count,
+																		thumb: respThumb.data.count,
+																		grin: respGrin.data.count,
+																		sad: respSad.data.count,
+																		symbol: repSymb.data,
+																	});
+																});
 														});
 												});
 										});

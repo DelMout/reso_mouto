@@ -89,6 +89,6 @@ export default {
 </script>
 <style>
 #author {
-	color: #303030;
+	color: #474444;
 }
 </style>

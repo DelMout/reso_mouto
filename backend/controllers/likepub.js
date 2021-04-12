@@ -72,7 +72,11 @@ exports.whichSymbol = (req, res) => {
 			where: { publicationId: req.params.pubid, userId: req.params.userid },
 		})
 		.then((resp) => {
+			// if (resp.symbol === null) {
+			// 	res.send(null);
+			// } else {
 			res.send(resp.symbol);
+			// }
 		})
 		.catch((err) => {
 			res.send(err);

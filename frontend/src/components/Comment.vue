@@ -14,7 +14,7 @@
 			</div>
 			<div class="p-grid ">
 				<div class="p-col-12">
-					<p class="p-text-justify p-my-0 p-px-5" style="background-color:yellow;">
+					<p class="p-text-justify p-my-0 p-px-5">
 						{{ com.texte }}
 					</p>
 				</div>

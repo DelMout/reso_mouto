@@ -3,7 +3,7 @@
 		<!-- Quand non connecté -->
 		<div v-if="!logged">
 			<h1>Réso' Mouto'</h1>
-			<h2>Bienvenue sur votre Réseau Social Familial Mouto !</h2>
+			<h2>Bienvenue sur ton Réseau Social Familial Mouto !</h2>
 			<div v-if="infoHome" class="p-grid p-jc-center">
 				<Message severity="warn">{{ infoHome }} </Message>
 			</div>

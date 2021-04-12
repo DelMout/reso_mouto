@@ -1,55 +1,81 @@
 <template>
-	<div class="p-grid" style="background-color:yellow;">
+	<div>
 		<!-- 4 symbols with score -->
-		<div>
-			<div>
-				<span v-if="pub.heart > 0" class="p-m-1">heart</span
-				><span v-if="pub.heart > 0" class="p-mr-2"> {{ pub.heart }} </span
-				><span v-if="pub.thumb > 0" class="p-m-1">thumb</span
-				><span v-if="pub.thumb > 0" class="p-mr-2">{{ pub.thumb }}</span
-				><span v-if="pub.grin > 0" class="p-m-1">grin</span
-				><span v-if="pub.grin > 0" class="p-mr-2">{{ pub.grin }}</span
-				><span v-if="pub.sad > 0" class="p-m-1">sad</span
-				><span v-if="pub.sad > 0" class="p-mr-2">{{ pub.sad }}</span>
-			</div>
+		<div class="p-grid p-ai-start vertical-container">
+			<span v-if="pub.heart > 0" class="p-m-1 symbol heart"><i class="fas fa-heart"></i></span
+			><span v-if="pub.heart > 0" class="p-mr-2 p-my-auto heart "> {{ pub.heart }} </span
+			><span v-if="pub.thumb > 0" class="p-m-1 symbol thumb"
+				><i class="fas fa-thumbs-up"></i></span
+			><span v-if="pub.thumb > 0" class="p-mr-2 p-my-auto thumb">{{ pub.thumb }}</span
+			><span v-if="pub.grin > 0" class="p-m-1 symbol grin"
+				><i class="fas fa-grin-beam"></i></span
+			><span v-if="pub.grin > 0" class="p-mr-2 p-my-auto grin">{{ pub.grin }}</span
+			><span v-if="pub.sad > 0" class="p-m-1 symbol sad"><i class="fas fa-sad-tear"></i></span
+			><span v-if="pub.sad > 0" class="p-mr-2 p-my-auto sad">{{ pub.sad }}</span>
 		</div>
 
 		<!-- Display 4  symbols for selecting-->
-		<div>
+		<div class="p-grid p-ai-start vertical-container p-mt-2">
 			<Button
 				@click="aimer($event, pub)"
-				:label="jaime"
-				class="p-button-rounded p-button-help p-button-outlined p-m-2"
+				label="J'aime ?"
+				class="p-button-raised
+			p-button-help p-button-text p-my-2"
 			/>
 			<OverlayPanel id="over" ref="op">
 				<!-- Select the symbol -->
-				<div id="symb" class="p-my-0">
-					<Button @click="heart(pub)" label="heart" class="p-button-text p-m-0 p-px-0" />
-					<Button @click="thumb(pub)" label="thumb" class="p-button-text p-m-0 p-px-0" />
-					<Button @click="grin(pub)" label="grin" class="p-button-text p-m-0 p-px-0" />
-					<Button @click="sad(pub)" label="sad" class="p-button-text p-m-0 p-px-0" />
+				<!-- mult=1 while origin page -->
+				<div class="p-my-0 ">
+					<Button
+						v-if="(pub.symbol === 'heart' && mult) || jaime === 'heart'"
+						@click="heart(pub)"
+						icon="fas fa-heart"
+						class="p-button-outlined  p-button-danger  p-px-0 p-mx-2 symbol "
+					/><Button
+						v-if="(pub.symbol !== 'heart' && mult) || (jaime !== 'heart' && !mult)"
+						@click="heart(pub)"
+						icon="fas fa-heart"
+						class=" p-button-text p-button-danger p-px-0 p-mx-2 symbol "
+					/>
+					<Button
+						v-if="(pub.symbol === 'thumb' && mult) || jaime === 'thumb'"
+						@click="thumb(pub)"
+						icon="fas fa-thumbs-up"
+						class="p-button-outlined p-button-info p-px-0 p-mx-2 symbol "
+					/>
+					<Button
+						v-if="(pub.symbol !== 'thumb' && mult) || (jaime !== 'thumb' && !mult)"
+						@click="thumb(pub)"
+						icon="fas fa-thumbs-up"
+						class="p-button-text p-button-info p-px-0 p-mx-2 symbol "
+					/>
+					<Button
+						v-if="(pub.symbol === 'grin' && mult) || jaime === 'grin'"
+						@click="grin(pub)"
+						icon="fas fa-grin-beam"
+						class="p-button-outlined p-button-success p-mx-2 p-px-0 symbol"
+					/>
+					<Button
+						v-if="(pub.symbol !== 'grin' && mult) || (jaime !== 'grin' && !mult)"
+						@click="grin(pub)"
+						icon="fas fa-grin-beam"
+						class="p-button-text p-button-success p-mx-2 p-px-0 symbol"
+					/>
+					<Button
+						v-if="(pub.symbol === 'sad' && mult) || jaime === 'sad'"
+						@click="sad(pub)"
+						icon="fas fa-sad-tear"
+						class="p-button-outlined p-button-help p-mx-2 p-px-0 symbol"
+					/>
+					<Button
+						v-if="(pub.symbol !== 'sad' && mult) || (jaime !== 'sad' && !mult)"
+						@click="sad(pub)"
+						icon="fas fa-sad-tear"
+						class="p-button-text p-button-help p-mx-2 p-px-0 symbol"
+					/>
 				</div>
 			</OverlayPanel>
 		</div>
-		<!-- <div>
-			<Button
-				@click="liker(pub)"
-				:label="pub.likes.toString()"
-				icon="pi pi-heart"
-				class="p-button-rounded p-button-help p-button-outlined p-m-2"
-			/>
-		</div> -->
-		<!-- <div v-if="noConnect" class="p-toast p-col-10 p-md-7 p-lg-3">
-			<div id="noLike" class="p-shadow-3 p-py-1 p-grid p-jc-between">
-				<div class="p-col-10">
-					<i class="pi pi-exclamation-triangle"></i>
-					<span> Vous devez être connecté.e pour "liker".</span>
-				</div>
-				<div class="p-col-1">
-					<i @click="closeAlert" class="pi pi-times-circle"></i>
-				</div>
-			</div>
-		</div> -->
 	</div>
 </template>
 <script>
@@ -62,10 +88,11 @@ export default {
 		return {
 			noConnect: false,
 			like: "",
-			jaime: "J'aime ?",
+			jaime: "",
 			symbolClic: "",
 			score: "",
 			result: "",
+			mult: 1,
 		};
 	},
 
@@ -83,14 +110,11 @@ export default {
 			this.noConnect = false;
 		},
 
-		//!!! A REVOIR !!
 		//* Want choose a symbol
 		aimer(event, pub) {
 			this.$refs.op.toggle(event);
 		},
-		grin(event) {
-			this.$refs.op.hide();
-		},
+
 		//* Add a THUMB
 		thumb(event, pub) {
 			this.symbolClic = "thumb";
@@ -108,22 +132,29 @@ export default {
 				// 	Authorization: `Bearer ${this.token}`,//! A debloquer !
 				// },
 			}).then((resp) => {
+				this.mult = 0; // Cancel the value from request origin
 				// if previous selection
 				if (resp.data === "heart") {
 					this.pub.heart -= 1;
 					this.pub.thumb += 1;
+					this.jaime = "thumb";
 				} else if (resp.data === "grin") {
 					this.pub.grin -= 1;
 					this.pub.thumb += 1;
+					this.jaime = "thumb";
 				} else if (resp.data === "sad") {
 					this.pub.sad -= 1;
 					this.pub.thumb += 1;
+					this.jaime = "thumb";
+
 					// if the same symbol already selected
 				} else if (resp.data === "like deleted") {
 					this.pub.thumb -= 1;
+					this.jaime = "";
 				} else {
 					// if no previous selection
 					this.pub.thumb += 1;
+					this.jaime = "thumb";
 				}
 			});
 
@@ -148,21 +179,27 @@ export default {
 				// },
 			}).then((resp) => {
 				// if previous selection
+				this.mult = 0; // Cancel the value from request origin
 				if (resp.data === "thumb") {
 					this.pub.thumb -= 1;
 					this.pub.heart += 1;
+					this.jaime = "heart";
 				} else if (resp.data === "grin") {
 					this.pub.grin -= 1;
 					this.pub.heart += 1;
+					this.jaime = "heart";
 				} else if (resp.data === "sad") {
 					this.pub.sad -= 1;
 					this.pub.heart += 1;
+					this.jaime = "heart";
 					// if the same symbol already selected
 				} else if (resp.data === "like deleted") {
 					this.pub.heart -= 1;
+					this.jaime = "";
 				} else {
 					// if no previous selection
 					this.pub.heart += 1;
+					this.jaime = "heart";
 				}
 			});
 
@@ -186,22 +223,29 @@ export default {
 				// 	Authorization: `Bearer ${this.token}`,//! A debloquer !
 				// },
 			}).then((resp) => {
+				this.mult = 0; // Cancel the value from request origin
 				// if previous selection
 				if (resp.data === "thumb") {
 					this.pub.thumb -= 1;
 					this.pub.grin += 1;
+					this.jaime = "grin";
 				} else if (resp.data === "heart") {
 					this.pub.heart -= 1;
 					this.pub.grin += 1;
+					this.jaime = "grin";
 				} else if (resp.data === "sad") {
 					this.pub.sad -= 1;
 					this.pub.grin += 1;
+					this.jaime = "grin";
+
 					// if the same symbol already selected
 				} else if (resp.data === "like deleted") {
 					this.pub.grin -= 1;
+					this.jaime = "";
 				} else {
 					// if no previous selection
 					this.pub.grin += 1;
+					this.jaime = "grin";
 				}
 			});
 
@@ -225,22 +269,30 @@ export default {
 				// 	Authorization: `Bearer ${this.token}`,//! A debloquer !
 				// },
 			}).then((resp) => {
+				this.mult = 0; // Cancel the value from request origin
+
 				// if previous selection
 				if (resp.data === "thumb") {
 					this.pub.thumb -= 1;
 					this.pub.sad += 1;
+					this.jaime = "sad";
 				} else if (resp.data === "heart") {
 					this.pub.heart -= 1;
 					this.pub.sad += 1;
+					this.jaime = "sad";
 				} else if (resp.data === "grin") {
 					this.pub.grin -= 1;
 					this.pub.sad += 1;
+					this.jaime = "sad";
+
 					// if the same symbol already selected
 				} else if (resp.data === "like deleted") {
 					this.pub.sad -= 1;
+					this.jaime = "";
 				} else {
 					// if no previous selection
 					this.pub.sad += 1;
+					this.jaime = "sad";
 				}
 			});
 
@@ -291,16 +343,23 @@ export default {
 #noLike {
 	background-color: orange;
 }
-
-OverlayPanel {
-	color: yellow;
-}
-
 #over {
-	background-color: yellow;
+	background-color: beige;
 }
 
-#symb {
-	background-color: pink;
+.symbol {
+	font-size: 1.5em;
+}
+.heart {
+	color: rgb(224, 9, 9);
+}
+.thumb {
+	color: rgb(36, 100, 240);
+}
+.grin {
+	color: rgb(12, 158, 12);
+}
+.sad {
+	color: rgb(156, 39, 176);
 }
 </style>
