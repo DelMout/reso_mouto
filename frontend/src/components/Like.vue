@@ -117,191 +117,6 @@ export default {
 
 		//* Add a THUMB
 		thumb(event, pub) {
-			this.symbolClic = "thumb";
-			axios({
-				method: "post",
-				url:
-					"http://localhost:3001/api/pub/" +
-					this.pub.index +
-					"/like/" +
-					this.$store.state.userId +
-					"/symbol/" +
-					this.symbolClic,
-				data: { symbol: this.symbolClic },
-				// headers: {
-				// 	Authorization: `Bearer ${this.token}`,//! A debloquer !
-				// },
-			}).then((resp) => {
-				this.mult = 0; // Cancel the value from request origin
-				// if previous selection
-				if (resp.data === "heart") {
-					this.pub.heart -= 1;
-					this.pub.thumb += 1;
-					this.jaime = "thumb";
-				} else if (resp.data === "grin") {
-					this.pub.grin -= 1;
-					this.pub.thumb += 1;
-					this.jaime = "thumb";
-				} else if (resp.data === "sad") {
-					this.pub.sad -= 1;
-					this.pub.thumb += 1;
-					this.jaime = "thumb";
-
-					// if the same symbol already selected
-				} else if (resp.data === "like deleted") {
-					this.pub.thumb -= 1;
-					this.jaime = "";
-				} else {
-					// if no previous selection
-					this.pub.thumb += 1;
-					this.jaime = "thumb";
-				}
-			});
-
-			this.$refs.op.hide();
-		},
-
-		//* Add a HEART
-		heart(event, pub) {
-			this.symbolClic = "heart";
-			axios({
-				method: "post",
-				url:
-					"http://localhost:3001/api/pub/" +
-					this.pub.index +
-					"/like/" +
-					this.$store.state.userId +
-					"/symbol/" +
-					this.symbolClic,
-				data: { symbol: this.symbolClic },
-				// headers: {
-				// 	Authorization: `Bearer ${this.token}`,//! A debloquer !
-				// },
-			}).then((resp) => {
-				// if previous selection
-				this.mult = 0; // Cancel the value from request origin
-				if (resp.data === "thumb") {
-					this.pub.thumb -= 1;
-					this.pub.heart += 1;
-					this.jaime = "heart";
-				} else if (resp.data === "grin") {
-					this.pub.grin -= 1;
-					this.pub.heart += 1;
-					this.jaime = "heart";
-				} else if (resp.data === "sad") {
-					this.pub.sad -= 1;
-					this.pub.heart += 1;
-					this.jaime = "heart";
-					// if the same symbol already selected
-				} else if (resp.data === "like deleted") {
-					this.pub.heart -= 1;
-					this.jaime = "";
-				} else {
-					// if no previous selection
-					this.pub.heart += 1;
-					this.jaime = "heart";
-				}
-			});
-
-			this.$refs.op.hide();
-		},
-
-		//* Add a GRIN
-		grin(event, pub) {
-			this.symbolClic = "grin";
-			axios({
-				method: "post",
-				url:
-					"http://localhost:3001/api/pub/" +
-					this.pub.index +
-					"/like/" +
-					this.$store.state.userId +
-					"/symbol/" +
-					this.symbolClic,
-				data: { symbol: this.symbolClic },
-				// headers: {
-				// 	Authorization: `Bearer ${this.token}`,//! A debloquer !
-				// },
-			}).then((resp) => {
-				this.mult = 0; // Cancel the value from request origin
-				// if previous selection
-				if (resp.data === "thumb") {
-					this.pub.thumb -= 1;
-					this.pub.grin += 1;
-					this.jaime = "grin";
-				} else if (resp.data === "heart") {
-					this.pub.heart -= 1;
-					this.pub.grin += 1;
-					this.jaime = "grin";
-				} else if (resp.data === "sad") {
-					this.pub.sad -= 1;
-					this.pub.grin += 1;
-					this.jaime = "grin";
-
-					// if the same symbol already selected
-				} else if (resp.data === "like deleted") {
-					this.pub.grin -= 1;
-					this.jaime = "";
-				} else {
-					// if no previous selection
-					this.pub.grin += 1;
-					this.jaime = "grin";
-				}
-			});
-
-			this.$refs.op.hide();
-		},
-
-		//* Add a SAD
-		sad(event, pub) {
-			this.symbolClic = "sad";
-			axios({
-				method: "post",
-				url:
-					"http://localhost:3001/api/pub/" +
-					this.pub.index +
-					"/like/" +
-					this.$store.state.userId +
-					"/symbol/" +
-					this.symbolClic,
-				data: { symbol: this.symbolClic },
-				// headers: {
-				// 	Authorization: `Bearer ${this.token}`,//! A debloquer !
-				// },
-			}).then((resp) => {
-				this.mult = 0; // Cancel the value from request origin
-
-				// if previous selection
-				if (resp.data === "thumb") {
-					this.pub.thumb -= 1;
-					this.pub.sad += 1;
-					this.jaime = "sad";
-				} else if (resp.data === "heart") {
-					this.pub.heart -= 1;
-					this.pub.sad += 1;
-					this.jaime = "sad";
-				} else if (resp.data === "grin") {
-					this.pub.grin -= 1;
-					this.pub.sad += 1;
-					this.jaime = "sad";
-
-					// if the same symbol already selected
-				} else if (resp.data === "like deleted") {
-					this.pub.sad -= 1;
-					this.jaime = "";
-				} else {
-					// if no previous selection
-					this.pub.sad += 1;
-					this.jaime = "sad";
-				}
-			});
-
-			this.$refs.op.hide();
-		},
-
-		//! A SUPPRIMER
-		//* Add a LIKE
-		liker: function(pub) {
 			if (!this.token) {
 				this.noConnect = true;
 			} else {
@@ -309,30 +124,210 @@ export default {
 				if (!this.logged && this.token) {
 					this.$router.push("/");
 				} else {
+					this.symbolClic = "thumb";
 					axios({
 						method: "post",
 						url:
 							"http://localhost:3001/api/pub/" +
 							this.pub.index +
 							"/like/" +
-							this.$store.state.userId,
+							this.$store.state.userId +
+							"/symbol/" +
+							this.symbolClic,
+						data: { symbol: this.symbolClic },
 						headers: {
 							Authorization: `Bearer ${this.token}`,
 						},
-					})
-						.then((resp) => {
-							if (resp.data === "like deleted") {
-								this.pub.likes -= 1;
-							} else {
-								this.pub.likes += 1;
-							}
-						})
-						.catch((err) => {
-							if (err.response.data.message === "jwt expired") {
-								this.setInfo;
-								this.$router.push("/");
-							}
-						});
+					}).then((resp) => {
+						this.mult = 0; // Cancel the value from request origin
+						// if previous selection
+						if (resp.data === "heart") {
+							this.pub.heart -= 1;
+							this.pub.thumb += 1;
+							this.jaime = "thumb";
+						} else if (resp.data === "grin") {
+							this.pub.grin -= 1;
+							this.pub.thumb += 1;
+							this.jaime = "thumb";
+						} else if (resp.data === "sad") {
+							this.pub.sad -= 1;
+							this.pub.thumb += 1;
+							this.jaime = "thumb";
+							// if the same symbol already selected
+						} else if (resp.data === "like deleted") {
+							this.pub.thumb -= 1;
+							this.jaime = "";
+						} else {
+							// if no previous selection
+							this.pub.thumb += 1;
+							this.jaime = "thumb";
+						}
+					});
+
+					this.$refs.op.hide();
+				}
+			}
+		},
+
+		//* Add a HEART
+		heart(event, pub) {
+			if (!this.token) {
+				this.noConnect = true;
+			} else {
+				this.$store.dispatch("checkConnect");
+				if (!this.logged && this.token) {
+					this.$router.push("/");
+				} else {
+					this.symbolClic = "heart";
+					axios({
+						method: "post",
+						url:
+							"http://localhost:3001/api/pub/" +
+							this.pub.index +
+							"/like/" +
+							this.$store.state.userId +
+							"/symbol/" +
+							this.symbolClic,
+						data: { symbol: this.symbolClic },
+						headers: {
+							Authorization: `Bearer ${this.token}`,
+						},
+					}).then((resp) => {
+						// if previous selection
+						this.mult = 0; // Cancel the value from request origin
+						if (resp.data === "thumb") {
+							this.pub.thumb -= 1;
+							this.pub.heart += 1;
+							this.jaime = "heart";
+						} else if (resp.data === "grin") {
+							this.pub.grin -= 1;
+							this.pub.heart += 1;
+							this.jaime = "heart";
+						} else if (resp.data === "sad") {
+							this.pub.sad -= 1;
+							this.pub.heart += 1;
+							this.jaime = "heart";
+							// if the same symbol already selected
+						} else if (resp.data === "like deleted") {
+							this.pub.heart -= 1;
+							this.jaime = "";
+						} else {
+							// if no previous selection
+							this.pub.heart += 1;
+							this.jaime = "heart";
+						}
+					});
+
+					this.$refs.op.hide();
+				}
+			}
+		},
+
+		//* Add a GRIN
+		grin(event, pub) {
+			if (!this.token) {
+				this.noConnect = true;
+			} else {
+				this.$store.dispatch("checkConnect");
+				if (!this.logged && this.token) {
+					this.$router.push("/");
+				} else {
+					this.symbolClic = "grin";
+					axios({
+						method: "post",
+						url:
+							"http://localhost:3001/api/pub/" +
+							this.pub.index +
+							"/like/" +
+							this.$store.state.userId +
+							"/symbol/" +
+							this.symbolClic,
+						data: { symbol: this.symbolClic },
+						headers: {
+							Authorization: `Bearer ${this.token}`,
+						},
+					}).then((resp) => {
+						this.mult = 0; // Cancel the value from request origin
+						// if previous selection
+						if (resp.data === "thumb") {
+							this.pub.thumb -= 1;
+							this.pub.grin += 1;
+							this.jaime = "grin";
+						} else if (resp.data === "heart") {
+							this.pub.heart -= 1;
+							this.pub.grin += 1;
+							this.jaime = "grin";
+						} else if (resp.data === "sad") {
+							this.pub.sad -= 1;
+							this.pub.grin += 1;
+							this.jaime = "grin";
+							// if the same symbol already selected
+						} else if (resp.data === "like deleted") {
+							this.pub.grin -= 1;
+							this.jaime = "";
+						} else {
+							// if no previous selection
+							this.pub.grin += 1;
+							this.jaime = "grin";
+						}
+					});
+
+					this.$refs.op.hide();
+				}
+			}
+		},
+
+		//* Add a SAD
+		sad(event, pub) {
+			if (!this.token) {
+				this.noConnect = true;
+			} else {
+				this.$store.dispatch("checkConnect");
+				if (!this.logged && this.token) {
+					this.$router.push("/");
+				} else {
+					this.symbolClic = "sad";
+					axios({
+						method: "post",
+						url:
+							"http://localhost:3001/api/pub/" +
+							this.pub.index +
+							"/like/" +
+							this.$store.state.userId +
+							"/symbol/" +
+							this.symbolClic,
+						data: { symbol: this.symbolClic },
+						headers: {
+							Authorization: `Bearer ${this.token}`,
+						},
+					}).then((resp) => {
+						this.mult = 0; // Cancel the value from request origin
+						// if previous selection
+						if (resp.data === "thumb") {
+							this.pub.thumb -= 1;
+							this.pub.sad += 1;
+							this.jaime = "sad";
+						} else if (resp.data === "heart") {
+							this.pub.heart -= 1;
+							this.pub.sad += 1;
+							this.jaime = "sad";
+						} else if (resp.data === "grin") {
+							this.pub.grin -= 1;
+							this.pub.sad += 1;
+							this.jaime = "sad";
+
+							// if the same symbol already selected
+						} else if (resp.data === "like deleted") {
+							this.pub.sad -= 1;
+							this.jaime = "";
+						} else {
+							// if no previous selection
+							this.pub.sad += 1;
+							this.jaime = "sad";
+						}
+					});
+
+					this.$refs.op.hide();
 				}
 			}
 		},

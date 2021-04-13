@@ -64,27 +64,9 @@
 									v-model="prenom"
 								/><label for="firstname">Prénom</label>
 							</p>
-							<!-- <InlineMessage class="p-lg-6 p-12 " v-if="prenomInfo" severity="error"
-								>{{ prenomInfo }}
-							</InlineMessage> -->
 						</div>
 					</div>
-					<!-- <div class="p-grid p-jc-center p-py-0">
-						<div class=" p-lg-4 p-md-5 p-col-11 vertical-container" v-if="mod || creat">
-							<p class=" p-float-label">
-								<InputText
-									class=""
-									id="lastname"
-									type="text"
-									@keyup="checkData"
-									v-model="nom"
-								/><label for="lastname">Nom</label>
-							</p>
-							<InlineMessage class="p-lg-6 p-12 " v-if="nomInfo" severity="error"
-								>{{ nomInfo }}
-							</InlineMessage>
-						</div>
-					</div> -->
+
 					<div class="p-grid p-jc-center p-py-0">
 						<div
 							class=" p-lg-4 p-md-5 p-col-11 vertical-container"
@@ -110,22 +92,7 @@
 							>
 						</div>
 					</div>
-					<!-- <div class="p-grid p-jc-center p-py-0">
-						<div class=" p-lg-4 p-md-5 p-col-11 vertical-container" v-if="mod || creat">
-							<p class="p-float-label">
-								<InputText
-									class=""
-									id="service"
-									type="text"
-									@keyup="checkData"
-									v-model="service"
-								/><label for="service">Service</label>
-							</p>
-							<InlineMessage class="p-lg-6 p-12 " v-if="serviceInfo" severity="error"
-								>{{ serviceInfo }}
-							</InlineMessage>
-						</div>
-					</div> -->
+
 					<div class="p-grid p-jc-center p-py-0">
 						<div
 							class=" p-lg-4 p-md-5 p-col-11 vertical-container"
@@ -191,18 +158,7 @@
 							>
 						</div>
 					</div>
-					<!-- <div class="p-grid p-jc-center p-py-0">
-						<div class=" p-lg-4 p-md-5 p-col-10 vertical-container" v-if="mod || creat">
-							<p class=" p-float-label">
-								<InputText
-									class="p-mx-1"
-									id="description"
-									type="text"
-									v-model="description"
-								/><label for="description">Description</label>
-							</p>
-						</div>
-					</div> -->
+
 					<div class="p-grid p-jc-center p-py-0">
 						<div
 							class=" p-lg-4 p-md-5 p-col-11 vertical-container"
@@ -244,30 +200,10 @@
 						v-if="mod && logged"
 						@click="modifUser"
 					/><br />
-					<!-- <Button
-						label="Modifier mon compte"
-						class="p-m-2"
-						v-if="logged && !mod"
-						@click="demandModifUser"
-					/> -->
 
 					<ConfirmPopup></ConfirmPopup>
-					<!-- <Button
-						label="Supprimer mon compte"
-						class="p-m-2"
-						v-if="logged && !mod"
-						@click="demandDeleteUser($event)"
-					/> -->
 				</div>
 			</div>
-			<!-- <div class="p-grid">
-				<div class="p-col p-py-0">
-					<p v-if="logged && admin" style="color:blue;">
-						<span class="p-mx-3">Pas encore de compte ?</span>
-						<Button label="Créer un compte utilisateur" @click="wantCreate" />
-					</p>
-				</div>
-			</div> -->
 		</div>
 	</div>
 </template>
@@ -417,45 +353,6 @@ export default {
 		onFileChange: function(event) {
 			this.image = event.target.files[0];
 		},
-		//* CREATE a new USER
-		wantCreate: function() {
-			this.creat = true;
-		},
-		createUser: function() {
-			this.theInfo = "";
-			this.setEmail(this.email);
-			const formData = new FormData();
-			formData.append("image", this.$data.image);
-			formData.append("prenom", this.$data.prenom);
-			// formData.append("nom", this.$data.nom);
-			formData.append("email", this.$data.email);
-			// formData.append("service", this.$data.service);
-			// formData.append("description", this.$data.description);
-			formData.append("password", this.$data.password);
-			axios({
-				method: "post",
-				url: "http://localhost:3001/api/auth/signup",
-				data: formData,
-				headers: {
-					Authorization: `Bearer ${this.token}`,
-				},
-			})
-				.then((resp) => {
-					// const { userId, token, isAdmin } = resp.data;
-					// localStorage.setItem("token", token);
-					// localStorage.setItem("userId", userId);
-					// this.setAdmin(isAdmin);
-					// this.$store.dispatch("checkConnect");
-					this.theInfo = "Le compte a été créé.";
-					this.severity = "success";
-					this.creat = false;
-				})
-				.catch((err) => {
-					this.theInfo =
-						"Le compte n'a pas pu être créé. Merci de corriger les paramètres demandés dans le formulaire.";
-					this.severity = "error";
-				});
-		},
 
 		//* LOGIN a USER
 
@@ -477,11 +374,15 @@ export default {
 					console.log("isadmin :" + isAdmin);
 					this.$store.dispatch("checkConnect");
 					//update last connection date in users table
-					axios
-						.put("http://localhost:3001/api/auth/login/" + this.$store.state.userId)
-						.then(() => {
-							this.$router.push("http://localhost:8080/publi");
-						});
+					axios({
+						method: "put",
+						url: "http://localhost:3001/api/auth/login/" + this.$store.state.userId,
+						headers: {
+							Authorization: `Bearer ${this.token}`,
+						},
+					}).then(() => {
+						this.$router.push("http://localhost:8080/publi");
+					});
 				})
 				.catch((err) => {
 					if (err.response.data === "Password not OK") {

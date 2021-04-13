@@ -150,91 +150,113 @@ export default {
 		},
 		//* SELECT 5 PUBLICATIONS
 		seePublications: function() {
-			this.mine = true;
-			this.mesLes = "Seulement mes publications";
-			this.seePub = false;
-			this.del = false;
-			this.seeDel = false;
-			this.theInfo = "Les publications du Réso' Mouto'";
-			axios.get("http://localhost:3001/api/pub").then((resp) => {
-				this.qtyPub = resp.data.length;
-				if (resp.data.length > parseInt(5 + 5 * this.qtyMore)) {
-					this.more = true;
-					this.qtyPub = parseInt(5 * this.qtyMore + 5);
-				} else {
-					this.more = false;
-				}
-				//* Get total of hearts
-				for (let i = parseInt(5 * this.qtyMore); i < this.qtyPub; i++) {
-					axios
-						.get("http://localhost:3001/api/pub/" + resp.data[i].id + "/count/heart")
-						.then((respHeart) => {
-							//* Get total of thumbs
-							axios
-								.get(
-									"http://localhost:3001/api/pub/" +
-										resp.data[i].id +
-										"/count/thumb"
-								)
-								.then((respThumb) => {
-									//* Get total of grins
-									axios
-										.get(
-											"http://localhost:3001/api/pub/" +
-												resp.data[i].id +
-												"/count/grin"
-										)
-										.then((respGrin) => {
-											//* Get total of sads
-											axios
-												.get(
-													"http://localhost:3001/api/pub/" +
-														resp.data[i].id +
-														"/count/sad"
-												)
-												.then((respSad) => {
-													// 		//* get total of comments
-													axios
-														.get(
-															"http://localhost:3001/api/pub/" +
-																resp.data[i].id +
-																"/comm/"
-														)
-														.then((rep) => {
-															//* get symbol selected by user
-															axios
-																.get(
-																	"http://localhost:3001/api/pub/" +
-																		resp.data[i].id +
-																		"/user/" +
-																		this.$store.state.userId
-																)
-																.then((repSymb) => {
-																	this.publica.push({
-																		index: resp.data[i].id,
-																		titre: resp.data[i].titre,
-																		contenu:
-																			resp.data[i].texte_pub,
-																		date:
-																			resp.data[i]
-																				.date_crea_pub,
-																		userId: resp.data[i].userId,
-																		photo: resp.data[i].photo,
-																		comm: rep.data.length,
-																		heart: respHeart.data.count,
-																		thumb: respThumb.data.count,
-																		grin: respGrin.data.count,
-																		sad: respSad.data.count,
-																		symbol: repSymb.data,
+			this.$store.dispatch("checkConnect");
+			if (!this.logged) {
+				this.$router.push("/");
+			} else {
+				this.mine = true;
+				this.mesLes = "Seulement mes publications";
+				this.seePub = false;
+				this.del = false;
+				this.seeDel = false;
+				this.theInfo = "Les publications du Réso' Mouto'";
+				axios({
+					method: "get",
+					url: "http://localhost:3001/api/pub",
+					headers: {
+						Authorization: `Bearer ${this.token}`,
+					},
+				}).then((resp) => {
+					this.qtyPub = resp.data.length;
+					if (resp.data.length > parseInt(5 + 5 * this.qtyMore)) {
+						this.more = true;
+						this.qtyPub = parseInt(5 * this.qtyMore + 5);
+					} else {
+						this.more = false;
+					}
+					//* Get total of hearts
+					for (let i = parseInt(5 * this.qtyMore); i < this.qtyPub; i++) {
+						axios
+							.get(
+								"http://localhost:3001/api/pub/" + resp.data[i].id + "/count/heart"
+							)
+							.then((respHeart) => {
+								//* Get total of thumbs
+								axios
+									.get(
+										"http://localhost:3001/api/pub/" +
+											resp.data[i].id +
+											"/count/thumb"
+									)
+									.then((respThumb) => {
+										//* Get total of grins
+										axios
+											.get(
+												"http://localhost:3001/api/pub/" +
+													resp.data[i].id +
+													"/count/grin"
+											)
+											.then((respGrin) => {
+												//* Get total of sads
+												axios
+													.get(
+														"http://localhost:3001/api/pub/" +
+															resp.data[i].id +
+															"/count/sad"
+													)
+													.then((respSad) => {
+														// 		//* get total of comments
+														axios
+															.get(
+																"http://localhost:3001/api/pub/" +
+																	resp.data[i].id +
+																	"/comm/"
+															)
+															.then((rep) => {
+																//* get symbol selected by user
+																axios
+																	.get(
+																		"http://localhost:3001/api/pub/" +
+																			resp.data[i].id +
+																			"/user/" +
+																			this.$store.state.userId
+																	)
+																	.then((repSymb) => {
+																		this.publica.push({
+																			index: resp.data[i].id,
+																			titre:
+																				resp.data[i].titre,
+																			contenu:
+																				resp.data[i]
+																					.texte_pub,
+																			date:
+																				resp.data[i]
+																					.date_crea_pub,
+																			userId:
+																				resp.data[i].userId,
+																			photo:
+																				resp.data[i].photo,
+																			comm: rep.data.length,
+																			heart:
+																				respHeart.data
+																					.count,
+																			thumb:
+																				respThumb.data
+																					.count,
+																			grin:
+																				respGrin.data.count,
+																			sad: respSad.data.count,
+																			symbol: repSymb.data,
+																		});
 																	});
-																});
-														});
-												});
-										});
-								});
-						});
-				}
-			});
+															});
+													});
+											});
+									});
+							});
+					}
+				});
+			}
 		},
 		//* SELECT my PUBLICATIONS
 		seeMinePublications: function() {
@@ -266,28 +288,94 @@ export default {
 								"Tu n'as pas encore de publications sur le Réso' Mouto' !";
 						}
 						for (let i = 0; i < this.qtyPub; i++) {
-							//* Get total of likes
 							axios
-								.get("http://localhost:3001/api/pub/" + resp.data[i].id + "/like/")
-								.then((respo) => {
-									//* get total of comments
+								.get(
+									"http://localhost:3001/api/pub/" +
+										resp.data[i].id +
+										"/count/heart"
+								)
+								.then((respHeart) => {
+									//* Get total of thumbs
 									axios
 										.get(
 											"http://localhost:3001/api/pub/" +
 												resp.data[i].id +
-												"/comm/"
+												"/count/thumb"
 										)
-										.then((rep) => {
-											this.publica.push({
-												index: resp.data[i].id,
-												titre: resp.data[i].titre,
-												contenu: resp.data[i].texte_pub,
-												userId: resp.data[i].userId,
-												date: resp.data[i].date_crea_pub,
-												photo: resp.data[i].photo,
-												comm: rep.data.length,
-												likes: respo.data.length,
-											});
+										.then((respThumb) => {
+											//* Get total of grins
+											axios
+												.get(
+													"http://localhost:3001/api/pub/" +
+														resp.data[i].id +
+														"/count/grin"
+												)
+												.then((respGrin) => {
+													//* Get total of sads
+													axios
+														.get(
+															"http://localhost:3001/api/pub/" +
+																resp.data[i].id +
+																"/count/sad"
+														)
+														.then((respSad) => {
+															// 		//* get total of comments
+															axios
+																.get(
+																	"http://localhost:3001/api/pub/" +
+																		resp.data[i].id +
+																		"/comm/"
+																)
+																.then((rep) => {
+																	//* get symbol selected by user
+																	axios
+																		.get(
+																			"http://localhost:3001/api/pub/" +
+																				resp.data[i].id +
+																				"/user/" +
+																				this.$store.state
+																					.userId
+																		)
+																		.then((repSymb) => {
+																			this.publica.push({
+																				index:
+																					resp.data[i].id,
+																				titre:
+																					resp.data[i]
+																						.titre,
+																				contenu:
+																					resp.data[i]
+																						.texte_pub,
+																				date:
+																					resp.data[i]
+																						.date_crea_pub,
+																				userId:
+																					resp.data[i]
+																						.userId,
+																				photo:
+																					resp.data[i]
+																						.photo,
+																				comm:
+																					rep.data.length,
+																				heart:
+																					respHeart.data
+																						.count,
+																				thumb:
+																					respThumb.data
+																						.count,
+																				grin:
+																					respGrin.data
+																						.count,
+																				sad:
+																					respSad.data
+																						.count,
+																				symbol:
+																					repSymb.data,
+																			});
+																		});
+																});
+														});
+												});
 										});
 								});
 						}

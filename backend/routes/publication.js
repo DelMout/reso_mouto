@@ -12,10 +12,10 @@ const admin = require("../middleware/isAdmin"); // Request authentification for 
 router.post("/create/:userid", auth, multer, pubCtrl.createPub);
 
 // * Select all publications
-router.get("/", pubCtrl.getAllPub);
+router.get("/", auth, pubCtrl.getAllPub);
 
 // * Select publications by userId
-router.get("/user/:userid", pubCtrl.getPubByUser); //! auth retiré
+router.get("/user/:userid", auth, pubCtrl.getPubByUser);
 
 // * Delete a publication
 router.delete("/:pubid/:userid", auth, ident, multer, pubCtrl.deletePub);

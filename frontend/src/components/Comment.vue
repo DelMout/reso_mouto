@@ -70,17 +70,29 @@ export default {
 		...mapActions(["checkConnect"]),
 		//* See COMMENTS
 		seeComment: function(pub) {
-			this.seeComm = true;
-			this.allComments = [];
-			axios.get("http://localhost:3001/api/pub/" + this.pub.index + "/comm/").then((resp) => {
-				for (let i = 0; i < this.pub.comm; i++) {
-					this.allComments.push({
-						texte: resp.data[i].texte_com,
-						date: resp.data[i].date_crea_com,
-						userId: resp.data[i].userId,
+			if (!this.token) {
+				this.noConnected = true;
+			} else {
+				this.$store.dispatch("checkConnect");
+				if (!this.logged) {
+					this.$router.push("/");
+				} else {
+					this.seeComm = true;
+					this.allComments = [];
+					axios({
+						method: "get",
+						url: "http://localhost:3001/api/pub/" + this.pub.index + "/comm/",
+					}).then((resp) => {
+						for (let i = 0; i < this.pub.comm; i++) {
+							this.allComments.push({
+								texte: resp.data[i].texte_com,
+								date: resp.data[i].date_crea_com,
+								userId: resp.data[i].userId,
+							});
+						}
 					});
 				}
-			});
+			}
 		},
 
 		//* Create a COMMENT

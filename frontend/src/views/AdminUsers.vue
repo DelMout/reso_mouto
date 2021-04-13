@@ -321,6 +321,12 @@ export default {
 				this.hide = "pi pi-eye";
 			}
 		},
+
+		//* Select a photo
+		onFileChange: function(event) {
+			this.image = event.target.files[0];
+		},
+
 		//* DISPLAY ALL USERS
 		seeAllUsers: function() {
 			this.$store.dispatch("checkConnect");
@@ -330,8 +336,13 @@ export default {
 				this.noFound = false;
 				this.findUser = false;
 				this.users = [];
-				axios
-					.get("http://localhost:3001/api/auth/users")
+				axios({
+					method: "get",
+					url: "http://localhost:3001/api/auth/users",
+					headers: {
+						Authorization: `Bearer ${this.token}`,
+					},
+				})
 					.then((resp) => {
 						this.qtyUsers = resp.data.length;
 						for (let i = 0; i < this.qtyUsers; i++) {

@@ -8,7 +8,7 @@ const auth = require("../middleware/auth"); // Request authentification
 const admin = require("../middleware/isAdmin"); // Request authentification for admin
 
 // * Voir tous users
-router.get("/users", userCtrl.getAllUsers);
+router.get("/users", admin, userCtrl.getAllUsers);
 
 // * Sign Up
 router.post("/signup", admin, multer, userCtrl.signup);
@@ -17,13 +17,13 @@ router.post("/signup", admin, multer, userCtrl.signup);
 router.post("/login", userCtrl.login);
 
 // * Update last connection date
-router.put("/login/:userid", userCtrl.lastconn); //! rajouter auth  !
+router.put("/login/:userid", auth, userCtrl.lastconn);
 
 // * Demand Modify user datas
 router.get("/modif/:userid", auth, userCtrl.demandmodif);
 
 // * Modify user datas
-router.put("/modif/:userid", multer, userCtrl.modif); //! auth retiré !
+router.put("/modif/:userid", auth, multer, userCtrl.modif);
 
 // * Delete user
 router.delete("/delete/:userid", auth, multer, userCtrl.delete);
@@ -31,7 +31,7 @@ router.delete("/delete/:userid", auth, multer, userCtrl.delete);
 // * Identify user
 router.get("/ident/:userid", userCtrl.ident);
 
-// * Find user by email
-router.get("/find/:email", admin, userCtrl.findUser);
+// // * Find user by email
+// router.get("/find/:email", admin, userCtrl.findUser);
 
 module.exports = router;

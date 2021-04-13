@@ -26,22 +26,12 @@ exports.signup = (req, res) => {
 		const newUser = new user({
 			...req.body,
 			password: bcrypt.hashSync(req.body.password, 10),
+			last_connect: 0,
 		});
 		newUser
 			.save()
 			.then((user) => {
-				let token = jwt.sign(
-					{ userId: user.id, isAdmin: user.isAdmin },
-					process.env.JWT_KEY,
-					{
-						expiresIn: "1h",
-					}
-				);
-				res.json({
-					userId: user.id,
-					token: token,
-					isAdmin: user.isAdmin,
-				});
+				res.send(user);
 			})
 			.catch((err) => {
 				res.status(401).send(err);
@@ -77,33 +67,6 @@ exports.login = (req, res) => {
 			res.status(401).send("Firstname not OK");
 		});
 };
-// exports.login = (req, res) => {
-// 	const email_saisi = req.body.email;
-// 	const password_saisi = req.body.password;
-// 	user.findOne({ where: { email: email_saisi } })
-// 		.then((user) => {
-// 			const password = user.password;
-// 			if (bcrypt.compareSync(password_saisi, password)) {
-// 				let token = jwt.sign(
-// 					{ userId: user.id, isAdmin: user.isAdmin },
-// 					process.env.JWT_KEY,
-// 					{
-// 						expiresIn: "1h",
-// 					}
-// 				);
-// 				res.json({
-// 					userId: user.id,
-// 					token: token,
-// 					isAdmin: user.isAdmin,
-// 				});
-// 			} else {
-// 				res.status(401).send("Password not OK");
-// 			}
-// 		})
-// 		.catch((err) => {
-// 			res.status(401).send("Email not OK");
-// 		});
-// };
 
 // * Demand modify (click button)
 exports.demandmodif = (req, res) => {
