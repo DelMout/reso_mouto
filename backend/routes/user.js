@@ -6,6 +6,7 @@ const userCtrl = require("../controllers/user");
 const multer = require("../middleware/multer-config"); //Upload files
 const auth = require("../middleware/auth"); // Request authentification
 const admin = require("../middleware/isAdmin"); // Request authentification for admin
+const { route } = require("./publication");
 
 // * Voir tous users
 router.get("/users", admin, userCtrl.getAllUsers);

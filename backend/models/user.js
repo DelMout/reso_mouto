@@ -4,14 +4,6 @@ module.exports = (sequelize, DataTypes) => {
 	const user = sequelize.define(
 		"user",
 		{
-			// nom: {
-			// 	type: DataTypes.STRING,
-			// 	allowNull: false,
-			// 	validate: {
-			// 		notEmpty: true,
-			// 		is: ["^[a-zÀ-ÿ- ']+$", "i"],
-			// 	},
-			// },
 			prenom: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -29,18 +21,7 @@ module.exports = (sequelize, DataTypes) => {
 					notEmpty: true,
 				},
 			},
-			// service: {
-			// 	type: DataTypes.STRING,
-			// 	allowNull: false,
-			// 	validate: {
-			// 		notEmpty: true,
-			// 		is: ["^[0-9a-zA-ZÀ-ÿ- ']+$", "i"],
-			// 	},
-			// },
-			// description: {
-			// 	type: DataTypes.STRING,
-			// 	allowNull: true,
-			// },
+
 			password: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -60,6 +41,11 @@ module.exports = (sequelize, DataTypes) => {
 			photo: {
 				type: DataTypes.STRING,
 				allowNull: true,
+			},
+			jeton: {
+				type: DataTypes.STRING,
+				allowNull: true,
+				unique: true,
 			},
 			isAdmin: {
 				type: DataTypes.TINYINT,

@@ -3,11 +3,11 @@ import Home from "../views/Home.vue";
 import store from "../store/index.js";
 
 const routes = [
-	{
-		path: "/home",
-		name: "Home",
-		component: Home,
-	},
+	// {
+	// 	path: "/home",
+	// 	name: "Home",
+	// 	component: Home,
+	// },
 	{
 		path: "/",
 		name: "Signup",

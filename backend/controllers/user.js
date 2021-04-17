@@ -23,10 +23,17 @@ exports.signup = (req, res) => {
 					schemaPassword.validate(req.body.password, { list: true })
 			);
 	} else {
+		// create 'jeton' for link when user forgot password
+		const characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		let jeton = "";
+		for (let i = 0; i < 25; i++) {
+			jeton += characters[Math.floor(Math.random() * characters.length)];
+		}
 		const newUser = new user({
 			...req.body,
 			password: bcrypt.hashSync(req.body.password, 10),
 			last_connect: 0,
+			jeton: jeton,
 		});
 		newUser
 			.save()
@@ -140,11 +147,17 @@ exports.modif = (req, res) => {
 	}
 };
 
-//* Update connexion date
+//* Update connexion date and jeton (used when user forgot password)
 exports.lastconn = (req, res) => {
+	const characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	let jeton = "";
+	for (let i = 0; i < 25; i++) {
+		jeton += characters[Math.floor(Math.random() * characters.length)];
+	}
 	user.update(
 		{
 			last_connect: Date(),
+			jeton: jeton,
 		},
 		{ where: { id: req.params.userid } }
 	)
@@ -219,3 +232,16 @@ exports.findUser = (req, res) => {
 			res.status(404).send("no user with that email");
 		});
 };
+
+// //* Send mail
+
+// exports.sendmail = (req, res) => {
+// 	user.findOne({ where: { id: 4 } })
+// 		.then((res) => {
+// 			console.log("message envoyé !");
+// 			nodemailer.sendfirstemail("Ingrid", "dlphn@hotmail.fr", "blabla");
+// 		})
+// 		.catch((err) => {
+// 			res.send(err);
+// 		});
+// };

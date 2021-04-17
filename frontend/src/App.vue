@@ -43,7 +43,10 @@ export default {
 			items: [],
 			noLog: [
 				// { label: "Home", icon: "pi pi-home", to: "/" },
-				{ to: "/" },
+
+				{
+					to: "/",
+				},
 				// { label: "Home", icon: "pi pi-home", to: "/" },
 				// { label: "Mon compte", icon: "pi pi-id-card", to: "/signup" },
 				// { label: "Les publications", icon: "pi pi-copy", to: "/publi" },

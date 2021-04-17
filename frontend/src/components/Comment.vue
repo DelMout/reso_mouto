@@ -24,7 +24,7 @@
 			<div class="p-col-12 p-as-start p-float-label p-text-left">
 				<Textarea v-model="commentUser" :autoResize="true" rows="3" :cols="col" />
 
-				<label>Votre commentaire</label
+				<label>Mon commentaire</label
 				><Button icon="pi pi-angle-double-right" class="" @click="createComm" />
 			</div>
 		</div>

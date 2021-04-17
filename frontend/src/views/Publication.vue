@@ -268,7 +268,7 @@ export default {
 				this.mine = false;
 				this.mesLes = "Toutes les publications";
 				this.more = false;
-				this.theInfo = "Tes publications ";
+				this.theInfo = "Mes publications ";
 				this.publica = [];
 				this.seePub = true;
 				this.del = false;

@@ -245,7 +245,7 @@ export default {
 			serviceTest: "",
 			emailTest: "",
 			prenomInfo: "Merci de renseigner ce champ",
-			emailInfo: "Merci de renseigner ce champ",
+			emailInfo: "",
 			passwordInfo: "Merci de renseigner ce champ",
 			min: "",
 			up: "",
@@ -264,6 +264,7 @@ export default {
 		...mapState(["infoHome", "token", "userId", "isAdmin", "logged"]),
 	},
 	beforeMount: function() {
+		localStorage.clear(); //! aretirer
 		this.$store.dispatch("checkConnect");
 		if (this.logged) {
 			this.demandModifUser();
@@ -291,7 +292,11 @@ export default {
 		},
 
 		//* Check datas in form
-		checkData: function() {
+		checkData: function(event) {
+			if (event.keyCode === 13) {
+				// Validate on touch Enter
+				this.loginUser();
+			}
 			if (this.prenom !== "") {
 				this.prenomTest = !/[^_a-zA-ZÀ-ÿ-]/.test(this.prenom); // Renvoie true qd bonne saisie
 				if (this.prenomTest === false) {
@@ -303,12 +308,16 @@ export default {
 			} else if (this.prenom === "") {
 				this.prenomInfo = "Merci de renseigner ce champ";
 			}
-
+			if (event.keyCode === 13) {
+				// Validate on touch Enter
+				this.loginUser();
+			}
 			if (this.password !== "") {
 				let passwordMin = this.password.length >= 10;
 				let passwordUp = /[A-Z]/.test(this.password);
 				let passwordLow = /[a-z]/.test(this.password);
 				let passwordNum = /[0-9]/.test(this.password);
+
 				if (passwordMin === false) {
 					this.min = "10 caractères minimum";
 				} else {
