@@ -14,9 +14,15 @@ const routes = [
 		component: () => import(/* webpackChunkName: "signup" */ "../views/Signup.vue"),
 	},
 	{
+		path: "/setpassword/:jeton",
+		name: "Password",
+		component: () => import(/* webpackChunkName: "password" */ "../views/Password.vue"),
+	},
+	{
 		path: "/publi",
 		name: "Publication",
 		component: () => import(/* webpackChunkName: "publication" */ "../views/Publication.vue"),
+		meta: { requiresAuth: true },
 	},
 
 	{

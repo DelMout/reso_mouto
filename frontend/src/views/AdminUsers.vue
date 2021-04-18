@@ -262,7 +262,6 @@
 import { mapMutations, mapActions, mapState } from "vuex";
 import moment from "moment";
 import axios from "axios";
-import emailjs from "emailjs-com";
 
 export default {
 	name: "AdminUsers",
@@ -312,30 +311,6 @@ export default {
 	methods: {
 		...mapMutations(["setUserId", "setToken", "setAdmin"]),
 		...mapActions(["checkConnect"]),
-		//* Send a mail
-		sendEmail: function(to, email) {
-			emailjs
-				.send(
-					"service_dw35rl7",
-					"template_mdjp3if",
-					{
-						to_name: to,
-						from_name: "administratrice Réso Mouto",
-						message: "c'est pénard !",
-						email: email,
-						site: "delmout",
-					},
-					"user_eGkTMs008rRrfSZ4URL63"
-				)
-				.then(
-					(result) => {
-						console.log("SUCCESS !", result.text);
-					},
-					(error) => {
-						console.log("Kassé !", error);
-					}
-				);
-		},
 
 		//* Hide or show password
 		visibility() {
@@ -418,11 +393,9 @@ export default {
 				},
 			})
 				.then((resp) => {
-					this.sendEmail(this.$data.prenom, "dlphn@hotmail.fr");
 					this.theInfo = "Le compte a été créé.";
 					this.severity = "success";
 					this.creat = false;
-					console.log("ca passe par là ?");
 				})
 				.catch((err) => {
 					this.theInfo =

@@ -26,11 +26,20 @@ router.get("/modif/:userid", auth, userCtrl.demandmodif);
 // * Modify user datas
 router.put("/modif/:userid", auth, multer, userCtrl.modif);
 
+// * Modify user datas without connection
+router.put("/modifpassword/:userid", userCtrl.modifPassword);
+
 // * Delete user
 router.delete("/delete/:userid", auth, multer, userCtrl.delete);
 
 // * Identify user
 router.get("/ident/:userid", userCtrl.ident);
+
+// * send email
+router.post("/emailpassword/:prenom/:message", userCtrl.emailPassword);
+
+// * Find user from his jeton
+router.get("/user/:jeton", userCtrl.userJeton);
 
 // // * Find user by email
 // router.get("/find/:email", admin, userCtrl.findUser);

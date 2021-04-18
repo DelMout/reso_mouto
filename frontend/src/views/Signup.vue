@@ -264,7 +264,6 @@ export default {
 		...mapState(["infoHome", "token", "userId", "isAdmin", "logged"]),
 	},
 	beforeMount: function() {
-		localStorage.clear(); //! aretirer
 		this.$store.dispatch("checkConnect");
 		if (this.logged) {
 			this.demandModifUser();

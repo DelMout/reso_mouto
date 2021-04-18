@@ -4,9 +4,83 @@ const bcrypt = require("bcrypt"); // crypt password
 const jwt = require("jsonwebtoken"); // create token key
 const passwordValidator = require("password-validator");
 const schemaPassword = new passwordValidator();
+const nodemailer = require("nodemailer");
+const { resolve } = require("path");
 
 //* Schema Password
 schemaPassword.is().min(10).has().uppercase().has().lowercase().has().digits();
+
+//* Send an email for 1rest connection or password forgotten (req.params.prenom)
+exports.emailPassword = (req, res) => {
+	let transporter = nodemailer.createTransport({
+		host: "source.o2switch.net",
+		port: 465,
+		secure: true, // true for 465, false for other ports
+		tls: {
+			rejectUnauthorized: false,
+		},
+		auth: {
+			user: process.env.FROM_EMAIL,
+			pass: process.env.PASS_EMAIL,
+		},
+	});
+
+	// Recherche email et jeton
+	user.findOne({ where: { prenom: req.params.prenom } }).then((user) => {
+		const email = user.email;
+		const jeton = user.jeton;
+		// Message for 1rst connexion or password forgotten
+		// const titre="";
+		if (req.params.message === "first") {
+			const titre = "Bienvenue dans le réso Mouto !";
+			const message =
+				"<p>Merci de cliquer sur le lien. Tu pourras alors choisir ton mot de passe et tes préférences concernant les envois de mails automatiques.</p>";
+
+			transporter.sendMail(
+				{
+					from: "DelphAdmin du Réso Mouto <reso.mouto@delmout.com>",
+					to: email,
+					subject: titre,
+					html:
+						"<p>Bonjour " +
+						req.params.prenom +
+						",</p></br>" +
+						message +
+						"</br><a href='https://delconphinement.delmout.com'>Lien pour ton mot de passe du Réso Mouto</a></br></br><p>Merci de ne pas répondre à cet email.</p><p>A bientôt sur le Réso Mouto !</p><p>DelphAdmin</p>",
+				},
+				(error, info) => {
+					if (error) {
+						return res.status(401).send(error);
+					}
+					res.status(200).send("email envoyé !");
+				}
+			);
+		} else {
+			const titre = "Alors ?! On a perdu son mot de passe !";
+			const message =
+				"<p>Tu cliques sur le lien et tu pourras saisir un nouveau mot de passe.</p>";
+			transporter.sendMail(
+				{
+					from: "DelphAdmin du Réso Mouto <reso.mouto@delmout.com>",
+					to: email,
+					subject: titre,
+					html:
+						"<p>Bonjour " +
+						req.params.prenom +
+						",</p></br>" +
+						message +
+						"</br><a href='https://delconphinement.delmout.com'>Lien pour ton mot de passe du Réso Mouto</a></br></br><p>Merci de ne pas répondre à cet email.</p><p>A bientôt sur le Réso Mouto !</p><p>DelphAdmin</p>",
+				},
+				(error, info) => {
+					if (error) {
+						return res.status(401).send(error);
+					}
+					res.status(200).send("email envoyé !");
+				}
+			);
+		}
+	});
+};
 
 // * Create a new user
 exports.signup = (req, res) => {
@@ -147,6 +221,20 @@ exports.modif = (req, res) => {
 	}
 };
 
+//* Modif password
+exports.modifPassword = (req, res) => {
+	user.update(
+		{ email: req.body.email, password: bcrypt.hashSync(req.body.password, 10) },
+		{ where: { id: req.params.userid } }
+	)
+		.then(() => {
+			res.send("datas user modified");
+		})
+		.catch((err) => {
+			res.send(err);
+		});
+};
+
 //* Update connexion date and jeton (used when user forgot password)
 exports.lastconn = (req, res) => {
 	const characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -218,9 +306,20 @@ exports.ident = (req, res) => {
 		});
 };
 
+// * Find user from jeton
+exports.userJeton = (req, res) => {
+	user.findOne({ where: { jeton: req.params.jeton } })
+		.then((resp) => {
+			res.status(200).send(resp);
+		})
+		.catch((err) => {
+			res.status(401).send(err);
+		});
+};
+
 // * Find user by email
 exports.findUser = (req, res) => {
-	user.findOne({ where: { email: req.params.email } })
+	user.findAll({ where: { email: req.params.email } })
 		.then((resp) => {
 			if (resp.prenom) {
 				res.status(200).send(resp);
@@ -232,16 +331,3 @@ exports.findUser = (req, res) => {
 			res.status(404).send("no user with that email");
 		});
 };
-
-// //* Send mail
-
-// exports.sendmail = (req, res) => {
-// 	user.findOne({ where: { id: 4 } })
-// 		.then((res) => {
-// 			console.log("message envoyé !");
-// 			nodemailer.sendfirstemail("Ingrid", "dlphn@hotmail.fr", "blabla");
-// 		})
-// 		.catch((err) => {
-// 			res.send(err);
-// 		});
-// };
