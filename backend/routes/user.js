@@ -39,7 +39,7 @@ router.get("/ident/:userid", userCtrl.ident);
 router.post("/emailpassword/:prenom/:message", userCtrl.emailPassword);
 
 // * send email automatic when new publication
-router.post("/emailpub/:prenom/:titre", userCtrl.emailPub); //! mettre auth
+router.post("/emailpub/:prenom/:titre", auth, userCtrl.emailPub);
 
 // * Find user from his jeton
 router.get("/user/:jeton", userCtrl.userJeton);

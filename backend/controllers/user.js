@@ -116,7 +116,7 @@ exports.emailPub = (req, res) => {
 						html:
 							"<p>Bonjour " +
 							users.rows[i].prenom +
-							",</p></br><p>Une nouvelle publication a été rédigée sur le Réso' Mouto' : '" +
+							",</p></br><p>Une nouvelle publication a été rédigée sur le Réso Mouto : '" +
 							req.params.titre +
 							"'.</p></br><p>Va vite voir !</p><a href='http://localhost:8080'>Réso' Mouto'</a></br></br><p>Merci de ne pas répondre à cet email.</p><p>A bientôt sur le Réso Mouto !</p>",
 					},

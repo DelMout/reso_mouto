@@ -100,25 +100,23 @@ export default {
 					},
 				})
 					.then((resp) => {
-						this.$router.push("http://localhost:8080/publi");
 						// Send email to users
-						// axios(
-						// 	{
-						// 		method: "post",
-						// 		url: "http://localhost:3001/api/auth/emailpub/Delph/Mon Titre",
-						// 	}
-						// 	// "http://localhost:3001/api/auth/emailpub/" +
-						// 	// localStorage.getItem(prenom) +
-						// 	// "/" +
-						// 	// this.$data.titre,
-						// 	// headers: {
-						// 	// 	Authorization: `Bearer ${this.token}`,
-						// 	// },
-						// )
-						// 	.then(() => {
-						// 		this.$router.push("http://localhost:8080/publi");
-						// 	})
-						// 	.catch((err) => consolr.log(err));
+						axios({
+							method: "post",
+							url:
+								"http://localhost:3001/api/auth/emailpub/" +
+								localStorage.getItem("prenom") +
+								"/" +
+								this.$data.titre,
+							headers: {
+								Authorization: `Bearer ${this.token}`,
+							},
+						})
+							.then((resp) => {
+								console.log("ca passe par la !");
+								this.$router.push("http://localhost:8080/publi");
+							})
+							.catch((err) => console.log(err));
 					})
 					.catch((err) => {
 						if (err.response.data === "notEmpty") {
