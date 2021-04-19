@@ -13,6 +13,8 @@ date_signup DATE NOT NULL,
 last_connect DATE NOT NULL,
 photo VARCHAR(255),
 jeton VARCHAR (255) UNIQUE,
+emailPub TINYINT DEFAULT 0,
+emailCom TINYINT DEFAULT 0,
 isAdmin TINYINT DEFAULT 0
 )
 ENGINE=INNODB;

@@ -1,6 +1,11 @@
 <template>
 	<div>
 		<h3>Bonjour {{ prenom }}</h3>
+		<div class="p-grid p-jc-center">
+			<div class="p-lg-4 p-md-6 p-col-10">
+				<Message v-if="theInfo" :severity="severity" :sticky="true">{{ theInfo }}</Message>
+			</div>
+		</div>
 		<div class=" p-text-left ">
 			<div class=" p-input-filled  " enctype="multipart/form-data">
 				<div class="p-grid p-jc-center p-py-0">
@@ -18,7 +23,7 @@
 							>{{ emailInfo }}
 						</InlineMessage>
 						<InlineMessage class="" severity="info"
-							>Saisir un autre email, modifiera votre adresse email.</InlineMessage
+							>Saisir un autre email, modifiera ton adresse email.</InlineMessage
 						>
 					</div>
 				</div>
@@ -98,15 +103,28 @@ export default {
 			num: "",
 			convers: {
 				min: "10 caractères minimum",
-				uppercase: "manque majuscule",
-				lowercase: "manque minuscle",
-				digits: "manque chiffres",
+				uppercase: " manque majuscule",
+				lowercase: " manque minuscle",
+				digits: " manque chiffre",
 				not: 'les symboles "$.=" et apostrophe sont interdits',
 			},
 		};
 	},
 	beforeMount: function() {
 		this.findDatas();
+	},
+	updated: function() {
+		if (
+			!this.min &&
+			!this.up &&
+			!this.low &&
+			!this.num &&
+			(this.theInfo !== "L'adresse email saisie n'est pas correcte." ||
+				(this.emailInfo !== "Adresse email non accéptée." &&
+					this.theInfo === "L'adresse email saisie n'est pas correcte."))
+		) {
+			this.theInfo = "";
+		}
 	},
 	methods: {
 		//* Find user datas from jeton
@@ -125,23 +143,13 @@ export default {
 
 		//* Validate datas modification
 		modifPassword: function() {
-			const formData = new FormData();
-			formData.append("email", this.$data.email);
-			formData.append("password", this.$data.password);
 			axios
-				.post("http://localhost:3001/api/auth/modifpassword/" + this.userId, {
-					data: formData,
-					_method: "patch",
-
-					// axios({
-					// 	method: "put",
-					// 	url: "http://localhost:3001/api/auth/modifpassword/" + this.userId,
-					// 	data: formData,
+				.put("http://localhost:3001/api/auth/modifpassword/" + this.userId, {
+					email: this.$data.email,
+					password: this.$data.password,
 				})
 				.then((resp) => {
-					this.theInfo = "Vos modifications ont été prises en compte";
-					this.severity = "success";
-					// this.$router.push("/");
+					this.$router.push("/");
 				})
 				.catch((err) => {
 					if (err.response.data === "notEmpty") {
@@ -155,9 +163,11 @@ export default {
 						}
 						if (this.passwordInfo || this.min || this.up || this.low || this.num) {
 							this.theInfo =
-								"Ces conditions pour le mot de passe ne sont pas respectées : " +
-								this.notStrong +
-								".";
+								"Les conditions pour le mot de passe ne sont pas respectées : Voir les messages ci-dessous.";
+							// this.theInfo =
+							// 	"Les conditions pour le mot de passe ne sont pas respectées : " +
+							// 	this.notStrong +
+							// 	".";
 						} else {
 							this.theInfo = "L'adresse email saisie n'est pas correcte.";
 						}

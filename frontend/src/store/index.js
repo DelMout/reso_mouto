@@ -22,6 +22,9 @@ export default createStore({
 		setInfo(state) {
 			state.infoHome = "Ta session a expiré.";
 		},
+		setInfoEmail(state) {
+			state.infoHome = "Email envoyé.";
+		},
 		IS_TRUE(state) {
 			state.logged = true;
 		},

@@ -378,7 +378,6 @@ export default {
 		},
 		createUser: function() {
 			this.theInfo = "";
-			// this.setEmail(this.email);
 			const formData = new FormData();
 			formData.append("image", this.$data.image);
 			formData.append("prenom", this.$data.prenom);
@@ -396,6 +395,22 @@ export default {
 					this.theInfo = "Le compte a été créé.";
 					this.severity = "success";
 					this.creat = false;
+					// Send email for updating the password
+					axios({
+						method: "post",
+						url:
+							"http://localhost:3001/api/auth/emailpassword/" +
+							this.prenom +
+							"/first",
+					})
+						.then((resp) => {
+							this.theInfo = "Email envoyé.";
+							this.severity = "success";
+						})
+						.catch((err) => {
+							this.theInfo = "L'email n'a pas pu être envoyé.";
+							this.severity = "error";
+						});
 				})
 				.catch((err) => {
 					this.theInfo =

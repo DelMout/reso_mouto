@@ -19,6 +19,7 @@ import Textarea from "primevue/textarea";
 import TabMenu from "primevue/tabmenu";
 import Menu from "primevue/menu";
 import OverlayPanel from "primevue/overlaypanel";
+import Checkbox from "primevue/checkbox";
 
 import "primevue/resources/themes/mdc-light-deeppurple/theme.css"; //theme
 import "primevue/resources/primevue.min.css"; //core css
@@ -41,6 +42,7 @@ createApp(App)
 	.component("TabMenu", TabMenu)
 	.component("Menu", Menu)
 	.component("OverlayPanel", OverlayPanel)
+	.component("Checkbox", Checkbox)
 	.use(store)
 	.use(router)
 	.mount("#app");

@@ -35,8 +35,11 @@ router.delete("/delete/:userid", auth, multer, userCtrl.delete);
 // * Identify user
 router.get("/ident/:userid", userCtrl.ident);
 
-// * send email
+// * send email for updating password
 router.post("/emailpassword/:prenom/:message", userCtrl.emailPassword);
+
+// * send email automatic when new publication
+router.post("/emailpub/:prenom/:titre", userCtrl.emailPub); //! mettre auth
 
 // * Find user from his jeton
 router.get("/user/:jeton", userCtrl.userJeton);

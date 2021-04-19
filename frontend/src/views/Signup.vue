@@ -4,8 +4,8 @@
 		<div v-if="!logged">
 			<h1>Réso' Mouto'</h1>
 			<h2>Bienvenue sur ton Réseau Social Familial Mouto !</h2>
-			<div v-if="infoHome" class="p-grid p-jc-center">
-				<Message severity="warn">{{ infoHome }} </Message>
+			<div v-if="infoHome || sent" class="p-grid p-jc-center">
+				<Message severity="warn">{{ infoHome }} {{ sent }} </Message>
 			</div>
 			<h3>
 				Réso' Mouto'<br />
@@ -96,7 +96,7 @@
 					<div class="p-grid p-jc-center p-py-0">
 						<div
 							class=" p-lg-4 p-md-5 p-col-11 vertical-container"
-							v-if="!logged || (mod && logged) || (creat && logged)"
+							v-if="(!logged || (mod && logged) || (creat && logged)) && !forget"
 						>
 							<p class="">
 								<span class="p-float-label  p-p-0">
@@ -158,7 +158,28 @@
 							>
 						</div>
 					</div>
-
+					<!-- case à cocher pour choix envoi email auto -->
+					<div class="p-grid p-jc-center p-my-5 ">
+						<div
+							class=" p-lg-4 p-md-5 p-col-11 vertical-container"
+							v-if="mod && logged"
+						>
+							<div class="p-field-checkbox">
+								<Checkbox id="newPub" value="emailPub" v-model="checkPub" />
+								<label for="newPub"
+									>Je veux recevoir un mail à chaque nouvelle publication.</label
+								>
+							</div>
+							<div class="p-field-checkbox">
+								<Checkbox id="newCom" value="emailCom" v-model="checkCom" />
+								<label for="newCom"
+									>Je veux recevoir un mail lorsque mes publications sont
+									commentées.</label
+								>
+							</div>
+						</div>
+					</div>
+					<!-- choix photo -->
 					<div class="p-grid p-jc-center p-py-0">
 						<div
 							class=" p-lg-4 p-md-5 p-col-11 vertical-container"
@@ -181,11 +202,26 @@
 							>Vous n'avez pas de photo actuellement.</InlineMessage
 						>
 					</div>
-					<div v-if="!logged && !creat" class="p-grid p-jc-center p-my-5">
+					<div v-if="!logged && !creat && !forget" class="p-grid p-jc-center p-my-5">
 						<Button
 							class="p-md-4 p-col-6"
 							label="Par ici pour rentrer dans le Réso' Mouto' !"
 							@click="loginUser"
+						/>
+					</div>
+					<div v-if="!logged && !creat && !forget" class="p-grid p-jc-center p-my-5">
+						<Button
+							id="oups"
+							class="p-button-text p-underline p-md-4 p-col-6"
+							label="Oups ! J'ai perdu mon mot de passe."
+							@click="forgotPass"
+						/>
+					</div>
+					<div v-if="forget" class="p-grid p-jc-center p-my-5">
+						<Button
+							class="p-md-4 p-col-6"
+							label="Demander un nouveau mot de passe"
+							@click="askPass"
 						/>
 					</div>
 					<div v-if="creat" class="p-grid p-jc-center p-my-2">
@@ -229,6 +265,13 @@ export default {
 			creat: false, //phase user creation
 			mod: false, //phase modification user
 			admin: false, //true if administrator profil
+			forget: false, // true if user request new password
+			checkPub: false, // for radio button
+			checkCom: false, // for radio button
+			emailPub: 0,
+			emailCom: 0,
+
+			sent: localStorage.getItem("emailSent"), // true if email sent while password forgotten
 			type: "password",
 			hide: "pi pi-eye",
 			paramUser: {
@@ -366,6 +409,7 @@ export default {
 
 		loginUser: function() {
 			this.theInfo = "";
+			localStorage.removeItem("sentEmail");
 			axios
 				.post("http://localhost:3001/api/auth/login", {
 					prenom: this.prenom,
@@ -443,11 +487,20 @@ export default {
 			if (!this.logged) {
 				this.$router.push("/");
 			} else {
+				if (this.checkPub) {
+					this.emailPub = 1;
+				}
+				if (this.checkCom) {
+					this.emailCom = 1;
+				}
+
 				this.theInfo = "";
 				const formData = new FormData();
 				formData.append("image", this.$data.image);
 				formData.append("email", this.$data.email);
 				formData.append("password", this.$data.password);
+				formData.append("emailPub", this.emailPub);
+				formData.append("emailCom", this.emailCom);
 				axios({
 					method: "put",
 					url: "http://localhost:3001/api/auth/modif/" + this.$store.state.userId,
@@ -528,6 +581,35 @@ export default {
 					});
 			}
 		},
+
+		//* Password forgotten
+		forgotPass: function() {
+			if (!this.prenom) {
+				this.theInfo = "Merci de renseigner ton prénom";
+			}
+			this.forget = true;
+		},
+
+		//* Ask new Password
+		askPass: function() {
+			this.theInfo = "";
+			axios({
+				method: "post",
+				url: "http://localhost:3001/api/auth/emailpassword/" + this.prenom + "/forgot",
+			})
+				.then((resp) => {
+					window.location.reload();
+					localStorage.setItem("emailSent", "Email envoyé !");
+				})
+				.catch((err) => {
+					if (!this.prenom) {
+						this.theInfo = "Merci de renseigner ton prénom";
+					} else {
+						this.theInfo = "L'email n'a pas pu être envoyé. Es-tu sûre du prénom ?";
+					}
+					this.severity = "error";
+				});
+		},
 	},
 };
 </script>
@@ -543,6 +625,10 @@ InlineMessage {
 }
 #photoUser {
 	width: 200px;
+}
+
+#oups {
+	text-decoration: underline;
 }
 
 /* MEDIA QUERIES */

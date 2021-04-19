@@ -47,6 +47,14 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: true,
 				unique: true,
 			},
+			emailPub: {
+				type: DataTypes.TINYINT,
+				defaultValue: 0,
+			},
+			emailCom: {
+				type: DataTypes.TINYINT,
+				defaultValue: 0,
+			},
 			isAdmin: {
 				type: DataTypes.TINYINT,
 				defaultValue: 0,

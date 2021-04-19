@@ -24,62 +24,112 @@ exports.emailPassword = (req, res) => {
 			pass: process.env.PASS_EMAIL,
 		},
 	});
-
 	// Recherche email et jeton
-	user.findOne({ where: { prenom: req.params.prenom } }).then((user) => {
-		const email = user.email;
-		const jeton = user.jeton;
-		// Message for 1rst connexion or password forgotten
-		// const titre="";
-		if (req.params.message === "first") {
-			const titre = "Bienvenue dans le réso Mouto !";
-			const message =
-				"<p>Merci de cliquer sur le lien. Tu pourras alors choisir ton mot de passe et tes préférences concernant les envois de mails automatiques.</p>";
+	user.findOne({ where: { prenom: req.params.prenom } })
+		.then((user) => {
+			const email = user.email;
+			const jeton = user.jeton;
+			// Message for 1rst connexion or password forgotten
+			// const titre="";
+			if (req.params.message === "first") {
+				const titre = "Bienvenue dans le réso Mouto !";
+				const message =
+					"<p>Merci de cliquer sur le lien. Tu pourras alors choisir ton mot de passe et tes préférences concernant les envois de mails automatiques.</p>";
 
-			transporter.sendMail(
-				{
-					from: "DelphAdmin du Réso Mouto <reso.mouto@delmout.com>",
-					to: email,
-					subject: titre,
-					html:
-						"<p>Bonjour " +
-						req.params.prenom +
-						",</p></br>" +
-						message +
-						"</br><a href='https://delconphinement.delmout.com'>Lien pour ton mot de passe du Réso Mouto</a></br></br><p>Merci de ne pas répondre à cet email.</p><p>A bientôt sur le Réso Mouto !</p><p>DelphAdmin</p>",
-				},
-				(error, info) => {
-					if (error) {
-						return res.status(401).send(error);
+				transporter.sendMail(
+					{
+						from: "DelphAdmin du Réso Mouto <reso.mouto@delmout.com>",
+						to: email,
+						subject: titre,
+						html:
+							"<p>Bonjour " +
+							req.params.prenom +
+							",</p></br>" +
+							message +
+							"</br><a href='http://localhost:8080/setpassword/" +
+							jeton +
+							"'>Lien pour ton mot de passe du Réso Mouto</a></br></br><p>Merci de ne pas répondre à cet email.</p><p>A bientôt sur le Réso Mouto !</p><p>DelphAdmin</p>",
+					},
+					(error, info) => {
+						if (error) {
+							return res.status(401).send(error);
+						}
+						res.status(200).send("email envoyé !");
 					}
-					res.status(200).send("email envoyé !");
-				}
-			);
-		} else {
-			const titre = "Alors ?! On a perdu son mot de passe !";
-			const message =
-				"<p>Tu cliques sur le lien et tu pourras saisir un nouveau mot de passe.</p>";
-			transporter.sendMail(
-				{
-					from: "DelphAdmin du Réso Mouto <reso.mouto@delmout.com>",
-					to: email,
-					subject: titre,
-					html:
-						"<p>Bonjour " +
-						req.params.prenom +
-						",</p></br>" +
-						message +
-						"</br><a href='https://delconphinement.delmout.com'>Lien pour ton mot de passe du Réso Mouto</a></br></br><p>Merci de ne pas répondre à cet email.</p><p>A bientôt sur le Réso Mouto !</p><p>DelphAdmin</p>",
-				},
-				(error, info) => {
-					if (error) {
-						return res.status(401).send(error);
+				);
+			} else {
+				const titre = "Alors ?! On a perdu son mot de passe !";
+				const message =
+					"<p>Tu cliques sur le lien et tu pourras saisir un nouveau mot de passe.</p>";
+				transporter.sendMail(
+					{
+						from: "DelphAdmin du Réso Mouto <reso.mouto@delmout.com>",
+						to: email,
+						subject: titre,
+						html:
+							"<p>Bonjour " +
+							req.params.prenom +
+							",</p></br>" +
+							message +
+							"</br><a href='http://localhost:8080/setpassword/" +
+							jeton +
+							"'>Lien pour ton mot de passe du Réso Mouto</a></br></br><p>Merci de ne pas répondre à cet email.</p><p>A bientôt sur le Réso Mouto !</p><p>DelphAdmin</p>",
+					},
+					(error, info) => {
+						if (error) {
+							return res.status(401).send(error);
+						}
+						res.status(200).send("email envoyé !");
 					}
-					res.status(200).send("email envoyé !");
-				}
-			);
-		}
+				);
+			}
+		})
+		.catch((err) => res.status(401).send("bad request"));
+};
+
+//* Send an email to users when new publication
+exports.emailPub = (req, res) => {
+	let transporter = nodemailer.createTransport({
+		host: "source.o2switch.net",
+		port: 465,
+		secure: true, // true for 465, false for other ports
+		tls: {
+			rejectUnauthorized: false,
+		},
+		auth: {
+			user: process.env.FROM_EMAIL,
+			pass: process.env.PASS_EMAIL,
+		},
 	});
+	// List of users want receive email
+	user.findAndCountAll({ where: { emailPub: 1 } })
+		.then((users) => {
+			// res.send(users);
+			const count = users.count;
+			for (let i = 0; i < count; i++) {
+				// Message for each user
+				transporter.sendMail(
+					{
+						from: "DelphAdmin du Réso Mouto <reso.mouto@delmout.com>",
+						to: users.rows[i].email,
+						subject: "[Réso' Mouto'] " + req.params.prenom + " vient de publier",
+						html:
+							"<p>Bonjour " +
+							users.rows[i].prenom +
+							",</p></br><p>Une nouvelle publication a été rédigée sur le Réso' Mouto' : '" +
+							req.params.titre +
+							"'.</p></br><p>Va vite voir !</p><a href='http://localhost:8080'>Réso' Mouto'</a></br></br><p>Merci de ne pas répondre à cet email.</p><p>A bientôt sur le Réso Mouto !</p>",
+					},
+					(error, info) => {
+						if (error) {
+							return res.status(401).send(error);
+						}
+						res.status(200).send("email envoyé !");
+					}
+				);
+			}
+		})
+		.catch((err) => res.status(401).send("bad request"));
 };
 
 // * Create a new user
@@ -223,16 +273,20 @@ exports.modif = (req, res) => {
 
 //* Modif password
 exports.modifPassword = (req, res) => {
-	user.update(
-		{ email: req.body.email, password: bcrypt.hashSync(req.body.password, 10) },
-		{ where: { id: req.params.userid } }
-	)
-		.then(() => {
-			res.send("datas user modified");
-		})
-		.catch((err) => {
-			res.send(err);
-		});
+	if (!schemaPassword.validate(req.body.password)) {
+		return res.status(401).send(schemaPassword.validate(req.body.password, { list: true }));
+	} else {
+		user.update(
+			{ email: req.body.email, password: bcrypt.hashSync(req.body.password, 10) },
+			{ where: { id: req.params.userid } }
+		)
+			.then(() => {
+				res.send("datas user modified");
+			})
+			.catch((err) => {
+				res.status(401).send(err);
+			});
+	}
 };
 
 //* Update connexion date and jeton (used when user forgot password)
