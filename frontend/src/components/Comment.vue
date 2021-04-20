@@ -138,9 +138,9 @@ export default {
 										url:
 											"http://localhost:3001/api/auth/emailcom/" +
 											this.pub.index,
-										// headers: {
-										// 	Authorization: `Bearer ${this.token}`,
-										// },
+										headers: {
+											Authorization: `Bearer ${this.token}`,
+										},
 									})
 										.then(() => console.log("email envoyé"))
 										.catch((err) => console.log(err));
