@@ -38,11 +38,17 @@
 							<p class="p-text-justify p-mb-3">{{ pub.contenu }}</p>
 							<img
 								id="photoPub"
-								v-if="pub.photo != null"
+								v-if="pub.photo && pub.photo.slice(-3) !== 'mp4'"
 								:src="pub.photo"
 								alt="publication picture"
 								title="pub-img"
 							/>
+							<video
+								id="photoPub"
+								v-if="pub.photo && pub.photo.slice(-3) === 'mp4'"
+								controls
+								:src="pub.photo"
+							></video>
 						</div>
 						<div class="p-card-footer p-mx-auto">
 							<div class="p-grid">

@@ -33,10 +33,11 @@
 						/><label for="contenu">Contenu</label>
 					</p>
 				</div>
-				<p v-if="toSend" class="p-col">
-					Photo (optionnel) : <input type="file" name="image" @change="onFileChange" />
-				</p>
-				<div class="p-col">
+				<div v-if="toSend" class="p-col">
+					Photo <i>(optionnel - formats acceptés : jpg, png, gif, pdf, mp4) </i>:
+					<input class="p-pt-2" type="file" name="image" @change="onFileChange" />
+				</div>
+				<div class="p-mt-2 p-col">
 					<Button label="Publier" v-if="toSend" @click="createPub" />
 				</div>
 			</div>
