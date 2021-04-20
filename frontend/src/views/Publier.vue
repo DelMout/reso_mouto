@@ -113,7 +113,6 @@ export default {
 							},
 						})
 							.then((resp) => {
-								console.log("ca passe par la !");
 								this.$router.push("http://localhost:8080/publi");
 							})
 							.catch((err) => console.log(err));

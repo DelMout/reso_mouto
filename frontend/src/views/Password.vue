@@ -143,6 +143,8 @@ export default {
 
 		//* Validate datas modification
 		modifPassword: function() {
+			localStorage.removeItem("emailSent");
+
 			axios
 				.put("http://localhost:3001/api/auth/modifpassword/" + this.userId, {
 					email: this.$data.email,

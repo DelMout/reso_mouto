@@ -409,7 +409,6 @@ export default {
 
 		loginUser: function() {
 			this.theInfo = "";
-			localStorage.removeItem("sentEmail");
 			axios
 				.post("http://localhost:3001/api/auth/login", {
 					prenom: this.prenom,

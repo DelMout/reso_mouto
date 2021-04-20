@@ -1,4 +1,5 @@
 const { user } = require("../models");
+const { publication } = require("../models");
 const fs = require("fs"); // handle files
 const bcrypt = require("bcrypt"); // crypt password
 const jwt = require("jsonwebtoken"); // create token key
@@ -130,6 +131,56 @@ exports.emailPub = (req, res) => {
 			}
 		})
 		.catch((err) => res.status(401).send("bad request"));
+};
+
+//* Send an email to user's publication when new comment
+exports.emailCom = (req, res) => {
+	let transporter = nodemailer.createTransport({
+		host: "source.o2switch.net",
+		port: 465,
+		secure: true, // true for 465, false for other ports
+		tls: {
+			rejectUnauthorized: false,
+		},
+		auth: {
+			user: process.env.FROM_EMAIL,
+			pass: process.env.PASS_EMAIL,
+		},
+	});
+	// Who wrote publication
+	publication.findOne({ where: { id: req.params.pubid } }).then((pub) => {
+		const userId = pub.userId;
+		const titre = pub.titre;
+		user.findOne({ where: { id: userId } })
+			.then((userPub) => {
+				const choiceCom = userPub.emailCom;
+				const email = userPub.email;
+				const prenom = userPub.prenom;
+				if (choiceCom === 1) {
+					// Message for the user's publication
+					transporter.sendMail(
+						{
+							from: "DelphAdmin du Réso Mouto <reso.mouto@delmout.com>",
+							to: email,
+							subject: "[Réso' Mouto'] Ta publication a reçu un commentaire",
+							html:
+								"<p>Bonjour " +
+								prenom +
+								",</p></br><p>Un nouveau commentaire a été rédigé sur ta publication : '" +
+								titre +
+								"'.</p></br><p>Va vite voir !</p><a href='http://localhost:8080'>Réso' Mouto'</a></br></br><p>Merci de ne pas répondre à cet email.</p><p>A bientôt sur le Réso Mouto !</p>",
+						},
+						(error, info) => {
+							if (error) {
+								return res.status(401).send(error);
+							}
+							res.status(200).send("email envoyé !");
+						}
+					);
+				}
+			})
+			.catch((err) => res.status(401).send("bad request"));
+	});
 };
 
 // * Create a new user

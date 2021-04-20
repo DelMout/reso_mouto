@@ -104,6 +104,7 @@ export default {
 				if (!this.logged) {
 					this.$router.push("/");
 				} else {
+					// Create the comment
 					axios({
 						method: "post",
 						url:
@@ -116,8 +117,9 @@ export default {
 							Authorization: `Bearer ${this.token}`,
 						},
 					})
-						.then((resp) => {
+						.then((respo) => {
 							this.allComments = [];
+							// Display all comments
 							axios
 								.get("http://localhost:3001/api/pub/" + this.pub.index + "/comm/")
 								.then((resp) => {
@@ -130,6 +132,18 @@ export default {
 									}
 									this.commentUser = "";
 									this.pub.comm += 1;
+									// Send email to the users'publication
+									axios({
+										method: "post",
+										url:
+											"http://localhost:3001/api/auth/emailcom/" +
+											this.pub.index,
+										// headers: {
+										// 	Authorization: `Bearer ${this.token}`,
+										// },
+									})
+										.then(() => console.log("email envoyé"))
+										.catch((err) => console.log(err));
 								});
 						})
 						.catch((err) => {

@@ -41,6 +41,9 @@ router.post("/emailpassword/:prenom/:message", userCtrl.emailPassword);
 // * send email automatic when new publication
 router.post("/emailpub/:prenom/:titre", auth, userCtrl.emailPub);
 
+// * send email automatic when new comment
+router.post("/emailcom/:pubid", userCtrl.emailCom); //! auth retiré
+
 // * Find user from his jeton
 router.get("/user/:jeton", userCtrl.userJeton);
 

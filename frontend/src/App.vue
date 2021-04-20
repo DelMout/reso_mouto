@@ -73,7 +73,7 @@ export default {
 					command: () => {
 						localStorage.clear();
 						this.$store.dispatch("disconnect");
-						// window.location.reload();
+						window.location.reload();
 					},
 					to: "/",
 				},
@@ -91,7 +91,7 @@ export default {
 					icon: "pi pi-power-off",
 					command: () => {
 						localStorage.clear();
-						// window.location.reload();
+						window.location.reload();
 					},
 					to: "/",
 				},
