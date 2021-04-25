@@ -12,30 +12,83 @@
 				Il est jamais trop tôt<br />
 				Pour écrire un mot !
 			</h3>
-
 			<img
 				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="dedee"
 				alt="dédee"
-				src="../assets/dedee.png"
+				src="../assets/dedeeVis.png"
 			/>
 			<img
 				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="aurelie"
 				alt="aurélie"
-				src="../assets/aurelie.png"
+				src="../assets/aurelieVis.png"
 			/>
 			<img
 				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="delphine"
 				alt="delphine"
-				src="../assets/delphine.png"
+				src="../assets/delphineVis.png"
 			/>
 			<img
 				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="axel"
 				alt="axel"
 				src="../assets/axel.png"
+			/>
+			<img
+				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				id="lucie"
+				alt="lucie"
+				src="../assets/lucie.png"
+			/>
+			<img
+				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				id="nina"
+				alt="nina"
+				src="../assets/nina.png"
+			/>
+			<img
+				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				id="maxym"
+				alt="maxym"
+				src="../assets/maxym.png"
+			/>
+			<img
+				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				id="bertrand"
+				alt="bertrand"
+				src="../assets/bertrand.png"
+			/>
+			<img
+				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				id="gosia"
+				alt="gosia"
+				src="../assets/gosia.png"
+			/>
+			<img
+				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				id="justine"
+				alt="justine"
+				src="../assets/justine.png"
+			/>
+			<img
+				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				id="morgan"
+				alt="morgan"
+				src="../assets/morgan.png"
+			/>
+			<img
+				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				id="christ"
+				alt="christ"
+				src="../assets/christ.png"
+			/>
+			<img
+				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				id="quentin"
+				alt="quentin"
+				src="../assets/quentin.png"
 			/>
 		</div>
 		<!-- Formulaire "login" ou "modif" -->
@@ -319,6 +372,7 @@ export default {
 			this.admin = false;
 		}
 	},
+
 	methods: {
 		...mapMutations(["setUserId", "setToken", "setAdmin", "setEmail"]),
 		...mapActions(["checkConnect"]),
@@ -613,6 +667,317 @@ export default {
 };
 </script>
 <style>
+/* .dedee-enter-from {
+	transform: translateY(-100vw) skew(80deg);
+}
+.dedee-leave-to {
+	transform: translateY(+100vw) skew(-80deg);
+}
+.dedee-enter-active,
+.dedee-leave-active {
+	transition: all 1s ease-in-out;
+}
+.dedee {
+	animation-iteration-count: 3;
+} */
+
+@keyframes tete1 {
+	0% {
+		transform: scale(2) translateY(12vw) translateX(-7vw);
+	}
+	65% {
+		transform: scale(2) translateY(12vw) translateX(8vw);
+	}
+	100% {
+		transform: scale(2) translateY(12vw) translateX(-7vw);
+	}
+}
+@keyframes tete2 {
+	0% {
+		transform: translateY(0vw) translateX(-15vw) rotate(0deg) scale(1);
+	}
+
+	65% {
+		transform: translateY(0vw) translateX(-15vw) rotate(-360deg) scale(3);
+	}
+	100% {
+		transform: translateY(0vw) translateX(-15vw) rotate(0deg) scale(1);
+	}
+}
+@keyframes tete3 {
+	0% {
+		transform: scale(2);
+	}
+	20% {
+		transform: translateY(-15vw) translateX(20vw) scale(2);
+	}
+	80% {
+		transform: translateY(+30vw) scale(4);
+	}
+	100% {
+		transform: scale(2);
+	}
+}
+@keyframes tete4 {
+	0% {
+		transform: translateX(-27vw) translateY(-15vw) rotate(+30deg) scale(2);
+	}
+	23% {
+		transform: translateX(68vw) translateY(-15vw) scale(2);
+	}
+	25% {
+		transform: translateX(68vw) translateY(-15vw) rotate(-60deg) scale(2);
+	}
+	48% {
+		transform: translateX(68vw) translateY(+29vw) scale(2);
+	}
+	50% {
+		transform: translateX(68vw) translateY(+29vw) rotate(-30deg) scale(2);
+	}
+	73% {
+		transform: translateX(-27vw) translateY(+29vw) scale(2);
+	}
+	75% {
+		transform: translateX(-27vw) translateY(+29vw) rotate(+60deg) scale(2);
+	}
+	100% {
+		transform: translateX(-27vw) translateY(-15vw) scale(2);
+	}
+}
+@keyframes tete5 {
+	0% {
+		transform: translateX(-40vw) translateY(+25vw) scale(2);
+	}
+	15% {
+		transform: translateX(-20vw) translateY(+10vw) scale(2);
+	}
+
+	30% {
+		transform: translateX(-5vw) translateY(+25vw) scale(2);
+	}
+
+	40% {
+		transform: translateX(+10vw) translateY(+10vw) scale(2);
+	}
+
+	50% {
+		transform: translateX(+20vw) translateY(+25vw) scale(2);
+	}
+	65% {
+		transform: translateX(+30vw) translateY(+10vw) scale(2);
+	}
+	75% {
+		transform: translateX(+40vw) translateY(+25vw) scale(2);
+	}
+	90% {
+		transform: translateX(+50vw) translateY(+10vw) scale(2);
+	}
+	100% {
+		transform: translateX(+65vw) translateY(+25vw) scale(2);
+	}
+}
+@keyframes tete6 {
+	0% {
+		transform: translateX(-38vw) translateY(-8vw) rotate(-0deg) scale(2);
+	}
+	50% {
+		transform: translateX(+75vw) translateY(-8vw) rotate(+360deg) scale(2);
+	}
+	100% {
+		transform: translateX(-35vw) translateY(-8vw) rotate(-360deg) scale(2);
+	}
+}
+@keyframes tete7 {
+	0% {
+		transform: translateX(+25vw) translateY(-20vw) scale(1);
+	}
+	50% {
+		transform: translateX(+25vw) translateY(+5vw) scale(4);
+	}
+	100% {
+		transform: translateX(+25vw) translateY(+35vw) scale(1);
+	}
+}
+@keyframes tete8 {
+	0% {
+		transform: translateX(-15vw) translateY(+15vw) rotate(-30deg) scale(2);
+	}
+	50% {
+		transform: translateX(-15vw) translateY(+15vw) rotate(+30deg) scale(2);
+	}
+
+	100% {
+		transform: translateX(-15vw) translateY(+15vw) rotate(-30deg) scale(2);
+	}
+}
+@keyframes tete9 {
+	0% {
+		transform: scaleX(0.8);
+	}
+	50% {
+		transform: scaleX(2.4) scaleY(3);
+	}
+
+	100% {
+		transform: scaleX(0.8);
+	}
+}
+@keyframes tete10 {
+	0% {
+		transform: translateX(-50vw) translateY(0vw) scale(2);
+	}
+	15% {
+		transform: translateX(-20vw) translateY(-10vw) scale(2);
+	}
+
+	35% {
+		transform: translateX(-5vw) translateY(+25vw) scale(2);
+	}
+
+	50% {
+		transform: translateX(+10vw) translateY(+10vw) scale(2);
+	}
+
+	65% {
+		transform: translateX(+20vw) translateY(+25vw) scale(2);
+	}
+	75% {
+		transform: translateX(+30vw) translateY(+15vw) scale(2);
+	}
+	85% {
+		transform: translateX(+40vw) translateY(+25vw) scale(2);
+	}
+	95% {
+		transform: translateX(+50vw) translateY(+20vw) scale(2);
+	}
+	100% {
+		transform: translateX(+65vw) translateY(+25vw) scale(2);
+	}
+}
+@keyframes tete11 {
+	0% {
+		transform: translateX(-50vw) translateY(-20vw) scale(2);
+	}
+	15% {
+		transform: translateX(-50vw) translateY(-10vw) scale(2);
+	}
+
+	35% {
+		transform: translateX(-50vw) translateY(+25vw) scale(2);
+	}
+
+	50% {
+		transform: translateX(-50vw) translateY(+10vw) scale(2);
+	}
+
+	65% {
+		transform: translateX(-50vw) translateY(+25vw) scale(2);
+	}
+	75% {
+		transform: translateX(-50vw) translateY(+15vw) scale(2);
+	}
+	85% {
+		transform: translateX(-50vw) translateY(+25vw) scale(2);
+	}
+	95% {
+		transform: translateX(-50vw) translateY(+20vw) rotate(-360deg) scale(2);
+	}
+	100% {
+		transform: translateX(-50vw) translateY(+25vw) rotate(0deg) scale(2);
+	}
+}
+@keyframes tete12 {
+	0% {
+		transform: translateX(+10vw) translateY(-20vw) rotate(+360deg) scale(2);
+	}
+	15% {
+		transform: translateX(+15vw) translateY(-10vw) rotate(0) scale(2);
+	}
+
+	35% {
+		transform: translateX(+5vw) translateY(+0vw) scale(2);
+	}
+
+	50% {
+		transform: translateX(+15vw) translateY(+5vw) rotate(-360deg) scale(2);
+	}
+
+	65% {
+		transform: translateX(+5vw) translateY(+15vw) rotate(0deg) scale(2);
+	}
+	75% {
+		transform: translateX(+15vw) translateY(+15vw) scale(2);
+	}
+	85% {
+		transform: translateX(+5vw) translateY(+25vw) scale(2);
+	}
+	95% {
+		transform: translateX(+15vw) translateY(+30vw) rotate(-360deg) scale(2);
+	}
+	100% {
+		transform: translateX(+5vw) translateY(+35vw) rotate(0deg) scale(2);
+	}
+}
+@keyframes tete13 {
+	0% {
+		transform: translateX(-10vw) translateY(5vw) rotate(+10deg) scale(2);
+	}
+	50% {
+		transform: translateX(-12vw) translateY(5vw) rotate(-10deg) scale(2);
+	}
+
+	100% {
+		transform: translateX(-10vw) translateY(5vw) rotate(+10deg) scale(2);
+	}
+}
+#dedee {
+	animation: tete4 10s infinite linear;
+}
+#aurelie {
+	animation: tete6 10s infinite linear;
+}
+#axel {
+	animation: tete5 10s infinite linear;
+}
+#delphine {
+	animation: tete8 2s infinite ease-in-out;
+}
+#lucie {
+	animation: tete2 4s infinite ease-in-out;
+}
+#justine {
+	animation: tete7 10s infinite ease-in-out;
+}
+
+#nina {
+	animation: tete3 10s infinite linear;
+}
+#quentin {
+	animation: tete9 4s infinite ease-in-out;
+}
+#maxym {
+	animation: tete1 4s infinite ease-in-out;
+}
+#bertrand {
+	animation: tete10 6s infinite linear;
+}
+#gosia {
+	animation: tete11 6s infinite linear;
+}
+#morgan {
+	animation: tete12 6s infinite linear;
+}
+#christ {
+	animation: tete13 0.6s infinite linear;
+}
+/* .slide-leave-to {
+	transform: translateY(+100vw) skew(-80deg);
+} */
+/* .slide-enter-active,
+.slide-leave-active {
+	transition: all 1s ease-in-out;
+} */
+
 InlineMessage {
 	color: black;
 }

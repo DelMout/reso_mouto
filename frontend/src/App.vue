@@ -26,7 +26,12 @@
 				</div>
 			</div>
 
-			<router-view />
+			<!-- <router-view /> -->
+			<router-view v-slot="slot">
+				<transition name="slide" mode="out-in">
+					<component :is="slot.Component"></component>
+				</transition>
+			</router-view>
 		</div>
 	</div>
 </template>
@@ -126,15 +131,6 @@ export default {
 		} else {
 			this.items = this.noLog;
 		}
-		// if (this.logged) {
-		// 	if (this.isAdmin === 1) {
-		// 		this.items = this.admin;
-		// 	} else {
-		// 		this.items = this.publish;
-		// 	}
-		// } else {
-		// 	this.items = this.noLog;
-		// }
 		this.prenom = localStorage.getItem("prenom");
 		if (
 			this.prenom === "Bertrand" ||
@@ -183,6 +179,17 @@ export default {
 </script>
 
 <style>
+.slide-enter-from {
+	transform: translateY(-100vw) skew(80deg);
+}
+.slide-leave-to {
+	transform: translateY(+100vw) skew(-80deg);
+}
+.slide-enter-active,
+.slide-leave-active {
+	transition: all 1s ease-in-out;
+}
+
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
