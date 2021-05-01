@@ -121,6 +121,9 @@ export default {
 		this.seePublications();
 		this.infoDelete = false;
 	},
+	beforeCreate: function() {
+		this.publica = [];
+	},
 	computed: {
 		...mapState(["token", "userId", "logged"]),
 		...mapActions(["checkConnect"]),
@@ -129,11 +132,13 @@ export default {
 		//* Mine OR All publications
 		mesOuLes: function() {
 			if (this.mine) {
+				this.publica = [];
+				console.log(this.publica);
 				this.mesLes = "Seulement mes publications";
 				this.seeMinePublications();
 			} else {
-				this.mesLes = "Toutes les publications";
 				this.publica = [];
+				this.mesLes = "Toutes les publications";
 				this.qtyMore = 0;
 				this.seePublications();
 				this.infoDelete = false;
@@ -146,14 +151,16 @@ export default {
 			this.seePublications();
 		},
 		//* BACK to PUBLICATIONS
-		backToPublications: function() {
-			this.publica = [];
-			this.qtyMore = 0;
-			this.mine = true;
-			this.seePublications();
-			this.theInfo = "Les publications du Réso' Mouto'";
-			this.seeDel = false;
-		},
+		// backToPublications: function() {
+		// 	this.publica = [];
+		// 	console.log(this.publica);
+		// 	this.qtyMore = 0;
+		// 	this.mine = true;
+		// 	this.seePublications();
+		// 	this.theInfo = "Les publications du Réso' Mouto'";
+		// 	this.seeDel = false;
+		// },
+
 		//* SELECT 5 PUBLICATIONS
 		seePublications: function() {
 			this.$store.dispatch("checkConnect");

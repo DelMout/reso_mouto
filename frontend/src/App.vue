@@ -1,5 +1,5 @@
 <template>
-	<div id="app">
+	<div>
 		<div id="nav">
 			<div class="p-grid p-jc-between">
 				<!-- div avec menu pour petit écran et nom loggé -->
@@ -179,6 +179,10 @@ export default {
 </script>
 
 <style>
+#id {
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
 .slide-enter-from {
 	transform: translateY(-100vw) skew(80deg);
 }
@@ -196,6 +200,9 @@ export default {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #303030;
+	/* background-image: url("./assets/fondVague.png");
+	background-position: bottom;
+	background-size: inherit; */
 }
 
 #nav {

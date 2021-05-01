@@ -1,8 +1,8 @@
 <template>
-	<div>
+	<div id="fond">
 		<!-- Quand non connecté -->
-		<div v-if="!logged">
-			<h1>Réso' Mouto'</h1>
+		<div id="top" v-if="!logged">
+			<div id="enseigne"><h1>RÉSO' MOUTO'</h1></div>
 			<h2>Bienvenue sur ton Réseau Social Familial Mouto !</h2>
 			<div v-if="infoHome || sent" class="p-grid p-jc-center">
 				<Message severity="warn">{{ infoHome }} {{ sent }} </Message>
@@ -13,13 +13,13 @@
 				Pour écrire un mot !
 			</h3>
 			<img
-				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				class="tete p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="dedee"
 				alt="dédee"
 				src="../assets/dedeeVis.png"
 			/>
 			<img
-				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				class="tete p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="aurelie"
 				alt="aurélie"
 				src="../assets/aurelieVis.png"
@@ -93,7 +93,7 @@
 		</div>
 		<!-- Formulaire "login" ou "modif" -->
 		<div>
-			<h1 v-if="mod && logged">{{ prenom }}, Tu peux ici modifier tes données</h1>
+			<h4 v-if="mod && logged">{{ prenom }}, Tu peux ici modifier tes données</h4>
 			<div class="p-grid p-jc-center">
 				<div class="p-lg-4 p-md-6 p-col-10">
 					<Message v-if="theInfo" :severity="severity" :life="7000" :sticky="false">{{
@@ -666,42 +666,92 @@ export default {
 	},
 };
 </script>
-<style>
-/* .dedee-enter-from {
-	transform: translateY(-100vw) skew(80deg);
+<style scoped>
+@font-face {
+	font-family: "sprinkles";
+	src: url("../assets/sprinkles.ttf") format("truetype");
 }
-.dedee-leave-to {
-	transform: translateY(+100vw) skew(-80deg);
+@font-face {
+	font-family: "charlotteS";
+	src: url("../assets/CharlotteSouthern.ttf") format("truetype");
 }
-.dedee-enter-active,
-.dedee-leave-active {
-	transition: all 1s ease-in-out;
+h1 {
+	font-family: sprinkles;
+	font-size: 7rem;
+	letter-spacing: 3rem;
+	margin: 0px;
+	margin-top: 1vw;
+	padding: 0px;
+	color: transparent;
+	background-image: linear-gradient(to right, #f00, #ff0, #0ff, #0f0, #00f);
+	-webkit-background-clip: text;
+	animation: colore 20s linear infinite;
+	background-size: 1000%;
 }
-.dedee {
-	animation-iteration-count: 3;
-} */
-
-@keyframes tete1 {
+#enseigne {
+	background-color: rgb(76, 41, 136);
+	padding: 0.5vw;
+	margin-right: 8vw;
+	margin-left: 8vw;
+	margin-bottom: 2vw;
+	border-radius: 2vw;
+	box-shadow: 0.3vw 0.3vw 0.4vw grey;
+}
+@keyframes colore {
 	0% {
-		transform: scale(2) translateY(12vw) translateX(-7vw);
+		background-position: 0% 100%;
 	}
-	65% {
-		transform: scale(2) translateY(12vw) translateX(8vw);
+	50% {
+		background-position: 100% 100%;
 	}
 	100% {
-		transform: scale(2) translateY(12vw) translateX(-7vw);
+		background-position: 0% 100%;
+	}
+}
+h2 {
+	font-family: calibri;
+	font-size: 2rem;
+	margin: 1vw;
+	padding: 0px;
+	color: rgb(103, 58, 183);
+}
+h3 {
+	font-family: charlotteS;
+	font-size: 3rem;
+	font-weight: 900;
+	/* letter-spacing: 1rem; */
+	margin-top: 2vw;
+	margin-bottom: 0px;
+	padding: 0px;
+	color: rgb(103, 58, 183);
+}
+h4 {
+	font-size: 2rem;
+}
+#top {
+	margin-bottom: -3vw;
+}
+@keyframes tete1 {
+	0% {
+		transform: scale(2) translateY(4.5vw) translateX(-7vw);
+	}
+	65% {
+		transform: scale(2) translateY(4.5vw) translateX(8vw);
+	}
+	100% {
+		transform: scale(2) translateY(4.5vw) translateX(-7vw);
 	}
 }
 @keyframes tete2 {
 	0% {
-		transform: translateY(0vw) translateX(-15vw) rotate(0deg) scale(1);
+		transform: translateY(-6vw) translateX(-15vw) rotate(0deg) scale(1);
 	}
 
 	65% {
-		transform: translateY(0vw) translateX(-15vw) rotate(-360deg) scale(3);
+		transform: translateY(-6vw) translateX(-15vw) rotate(-360deg) scale(3);
 	}
 	100% {
-		transform: translateY(0vw) translateX(-15vw) rotate(0deg) scale(1);
+		transform: translateY(-6vw) translateX(-15vw) rotate(0deg) scale(1);
 	}
 }
 @keyframes tete3 {
@@ -720,94 +770,94 @@ export default {
 }
 @keyframes tete4 {
 	0% {
-		transform: translateX(-27vw) translateY(-15vw) rotate(+30deg) scale(2);
+		transform: translateX(-27vw) translateY(-27vw) rotate(+30deg) scale(2);
 	}
 	23% {
-		transform: translateX(68vw) translateY(-15vw) scale(2);
+		transform: translateX(68vw) translateY(-27vw) scale(2);
 	}
 	25% {
-		transform: translateX(68vw) translateY(-15vw) rotate(-60deg) scale(2);
+		transform: translateX(68vw) translateY(-27vw) rotate(-60deg) scale(2);
 	}
 	48% {
-		transform: translateX(68vw) translateY(+29vw) scale(2);
+		transform: translateX(68vw) translateY(+17vw) scale(2);
 	}
 	50% {
-		transform: translateX(68vw) translateY(+29vw) rotate(-30deg) scale(2);
+		transform: translateX(68vw) translateY(+17vw) rotate(-30deg) scale(2);
 	}
 	73% {
-		transform: translateX(-27vw) translateY(+29vw) scale(2);
+		transform: translateX(-27vw) translateY(+17vw) scale(2);
 	}
 	75% {
-		transform: translateX(-27vw) translateY(+29vw) rotate(+60deg) scale(2);
+		transform: translateX(-27vw) translateY(+17vw) rotate(+60deg) scale(2);
 	}
 	100% {
-		transform: translateX(-27vw) translateY(-15vw) scale(2);
+		transform: translateX(-27vw) translateY(-27vw) scale(2);
 	}
 }
 @keyframes tete5 {
 	0% {
-		transform: translateX(-40vw) translateY(+25vw) scale(2);
+		transform: translateX(-40vw) translateY(+15vw) scale(2);
 	}
 	15% {
-		transform: translateX(-20vw) translateY(+10vw) scale(2);
+		transform: translateX(-20vw) translateY(+5vw) scale(2);
 	}
 
 	30% {
-		transform: translateX(-5vw) translateY(+25vw) scale(2);
+		transform: translateX(-5vw) translateY(+15vw) scale(2);
 	}
 
 	40% {
-		transform: translateX(+10vw) translateY(+10vw) scale(2);
+		transform: translateX(+10vw) translateY(+5vw) scale(2);
 	}
 
 	50% {
-		transform: translateX(+20vw) translateY(+25vw) scale(2);
+		transform: translateX(+20vw) translateY(+15vw) scale(2);
 	}
 	65% {
-		transform: translateX(+30vw) translateY(+10vw) scale(2);
+		transform: translateX(+30vw) translateY(+5vw) scale(2);
 	}
 	75% {
-		transform: translateX(+40vw) translateY(+25vw) scale(2);
+		transform: translateX(+40vw) translateY(+15vw) scale(2);
 	}
 	90% {
-		transform: translateX(+50vw) translateY(+10vw) scale(2);
+		transform: translateX(+50vw) translateY(+5vw) scale(2);
 	}
 	100% {
-		transform: translateX(+65vw) translateY(+25vw) scale(2);
+		transform: translateX(+65vw) translateY(+15vw) scale(2);
 	}
 }
 @keyframes tete6 {
 	0% {
-		transform: translateX(-38vw) translateY(-8vw) rotate(-0deg) scale(2);
+		transform: translateX(-38vw) translateY(-11vw) rotate(-0deg) scale(2);
 	}
 	50% {
-		transform: translateX(+75vw) translateY(-8vw) rotate(+360deg) scale(2);
+		transform: translateX(+75vw) translateY(-11vw) rotate(+360deg) scale(2);
 	}
 	100% {
-		transform: translateX(-35vw) translateY(-8vw) rotate(-360deg) scale(2);
+		transform: translateX(-35vw) translateY(-11vw) rotate(-360deg) scale(2);
 	}
 }
 @keyframes tete7 {
 	0% {
-		transform: translateX(+25vw) translateY(-20vw) scale(1);
+		transform: translateX(+25vw) translateY(-33vw) scale(1);
 	}
 	50% {
 		transform: translateX(+25vw) translateY(+5vw) scale(4);
 	}
 	100% {
-		transform: translateX(+25vw) translateY(+35vw) scale(1);
+		transform: translateX(+25vw) translateY(+22vw) scale(1);
 	}
 }
 @keyframes tete8 {
 	0% {
-		transform: translateX(-15vw) translateY(+15vw) rotate(-30deg) scale(2);
+		transform: translateX(-15vw) translateY(+12vw) rotate(-30deg) scale(2);
 	}
 	50% {
-		transform: translateX(-15vw) translateY(+15vw) rotate(+30deg) scale(2);
+		transform: translateX(-15vw) translateY(+12vw) rotate(+30deg) scale(2);
 	}
 
 	100% {
-		transform: translateX(-15vw) translateY(+15vw) rotate(-30deg) scale(2);
+		transform: translateX(-15vw) translateY(+12vw) rotate(-30deg) scale(2);
 	}
 }
 @keyframes tete9 {
@@ -831,7 +881,7 @@ export default {
 	}
 
 	35% {
-		transform: translateX(-5vw) translateY(+25vw) scale(2);
+		transform: translateX(-5vw) translateY(+17vw) scale(2);
 	}
 
 	50% {
@@ -839,19 +889,19 @@ export default {
 	}
 
 	65% {
-		transform: translateX(+20vw) translateY(+25vw) scale(2);
+		transform: translateX(+20vw) translateY(+17vw) scale(2);
 	}
 	75% {
-		transform: translateX(+30vw) translateY(+15vw) scale(2);
+		transform: translateX(+30vw) translateY(+13vw) scale(2);
 	}
 	85% {
-		transform: translateX(+40vw) translateY(+25vw) scale(2);
+		transform: translateX(+40vw) translateY(+17vw) scale(2);
 	}
 	95% {
-		transform: translateX(+50vw) translateY(+20vw) scale(2);
+		transform: translateX(+50vw) translateY(+17vw) scale(2);
 	}
 	100% {
-		transform: translateX(+65vw) translateY(+25vw) scale(2);
+		transform: translateX(+65vw) translateY(+17vw) scale(2);
 	}
 }
 @keyframes tete11 {
@@ -863,7 +913,7 @@ export default {
 	}
 
 	35% {
-		transform: translateX(-50vw) translateY(+25vw) scale(2);
+		transform: translateX(-50vw) translateY(+17vw) scale(2);
 	}
 
 	50% {
@@ -871,27 +921,27 @@ export default {
 	}
 
 	65% {
-		transform: translateX(-50vw) translateY(+25vw) scale(2);
+		transform: translateX(-50vw) translateY(+17vw) scale(2);
 	}
 	75% {
-		transform: translateX(-50vw) translateY(+15vw) scale(2);
+		transform: translateX(-50vw) translateY(+12vw) scale(2);
 	}
 	85% {
-		transform: translateX(-50vw) translateY(+25vw) scale(2);
+		transform: translateX(-50vw) translateY(+17vw) scale(2);
 	}
 	95% {
-		transform: translateX(-50vw) translateY(+20vw) rotate(-360deg) scale(2);
+		transform: translateX(-50vw) translateY(+15vw) rotate(-360deg) scale(2);
 	}
 	100% {
-		transform: translateX(-50vw) translateY(+25vw) rotate(0deg) scale(2);
+		transform: translateX(-50vw) translateY(+20vw) rotate(0deg) scale(2);
 	}
 }
 @keyframes tete12 {
 	0% {
-		transform: translateX(+10vw) translateY(-20vw) rotate(+360deg) scale(2);
+		transform: translateX(+10vw) translateY(-27vw) rotate(+360deg) scale(2);
 	}
 	15% {
-		transform: translateX(+15vw) translateY(-10vw) rotate(0) scale(2);
+		transform: translateX(+15vw) translateY(-14vw) rotate(0) scale(2);
 	}
 
 	35% {
@@ -920,14 +970,14 @@ export default {
 }
 @keyframes tete13 {
 	0% {
-		transform: translateX(-10vw) translateY(5vw) rotate(+10deg) scale(2);
+		transform: translateX(-10vw) translateY(2vw) rotate(+10deg) scale(2);
 	}
 	50% {
-		transform: translateX(-12vw) translateY(5vw) rotate(-10deg) scale(2);
+		transform: translateX(-12vw) translateY(2vw) rotate(-10deg) scale(2);
 	}
 
 	100% {
-		transform: translateX(-10vw) translateY(5vw) rotate(+10deg) scale(2);
+		transform: translateX(-10vw) translateY(2vw) rotate(+10deg) scale(2);
 	}
 }
 #dedee {
@@ -970,23 +1020,22 @@ export default {
 #christ {
 	animation: tete13 0.6s infinite linear;
 }
-/* .slide-leave-to {
-	transform: translateY(+100vw) skew(-80deg);
-} */
-/* .slide-enter-active,
-.slide-leave-active {
-	transition: all 1s ease-in-out;
-} */
+#fond {
+	background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
+		url("../assets/ResoMouto.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
 
 InlineMessage {
 	color: black;
+	margin-top: 0px;
 }
 p {
 	margin-bottom: 0px;
 }
-InlineMessage {
-	margin-top: 0px;
-}
+
 #photoUser {
 	width: 200px;
 }
@@ -1000,6 +1049,16 @@ InlineMessage {
 @media only screen and (max-width: 768px) {
 	/*mobiles et tablettes*/
 	h1 {
+		font-size: 1.7rem;
+		letter-spacing: 1rem;
+	}
+	h2 {
+		font-size: 1.7rem;
+	}
+	h3 {
+		font-size: 2.2rem;
+	}
+	h4 {
 		font-size: 1rem;
 	}
 }
@@ -1008,6 +1067,19 @@ InlineMessage {
 
 	h1 {
 		font-size: 0.9rem;
+		letter-spacing: 0.5rem;
+	}
+	h2 {
+		font-size: 1.2rem;
+	}
+	h3 {
+		font-size: 1.4rem;
+	}
+	h4 {
+		font-size: 0.9rem;
+	}
+	img {
+		display: none;
 	}
 }
 </style>

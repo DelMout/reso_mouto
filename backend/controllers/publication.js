@@ -7,6 +7,7 @@ exports.getAllPub = (req, res) => {
 	publication
 		.findAll({
 			order: [["date_crea_pub", "DESC"]],
+			// order: [["date_crea_pub", "DESC"]],
 		})
 		.then((pub) => {
 			res.send(pub);
