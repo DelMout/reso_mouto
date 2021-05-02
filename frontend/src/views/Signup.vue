@@ -858,40 +858,40 @@ h4 {
 }
 @keyframes tete4 {
 	0% {
-		transform: translateX(-27vw) translateY(-27vw) rotate(+30deg) scale(2);
+		transform: translateX(-27vw) translateY(-22vw) rotate(+30deg) scale(2);
 	}
 	23% {
-		transform: translateX(68vw) translateY(-27vw) scale(2);
+		transform: translateX(68vw) translateY(-22vw) scale(2);
 	}
 	25% {
-		transform: translateX(68vw) translateY(-27vw) rotate(-60deg) scale(2);
+		transform: translateX(68vw) translateY(-22vw) rotate(-60deg) scale(2);
 	}
 	48% {
-		transform: translateX(68vw) translateY(+17vw) scale(2);
+		transform: translateX(68vw) translateY(+21vw) scale(2);
 	}
 	50% {
-		transform: translateX(68vw) translateY(+17vw) rotate(-30deg) scale(2);
+		transform: translateX(68vw) translateY(+21vw) rotate(-30deg) scale(2);
 	}
 	73% {
-		transform: translateX(-27vw) translateY(+17vw) scale(2);
+		transform: translateX(-27vw) translateY(+21vw) scale(2);
 	}
 	75% {
-		transform: translateX(-27vw) translateY(+17vw) rotate(+60deg) scale(2);
+		transform: translateX(-27vw) translateY(+21vw) rotate(+60deg) scale(2);
 	}
 	100% {
-		transform: translateX(-27vw) translateY(-27vw) scale(2);
+		transform: translateX(-27vw) translateY(-22vw) scale(2);
 	}
 }
 @keyframes tete5 {
 	0% {
-		transform: translateX(-40vw) translateY(+15vw) scale(2);
+		transform: translateX(-40vw) translateY(+21vw) scale(2);
 	}
 	15% {
 		transform: translateX(-20vw) translateY(+5vw) scale(2);
 	}
 
 	30% {
-		transform: translateX(-5vw) translateY(+15vw) scale(2);
+		transform: translateX(-5vw) translateY(+21vw) scale(2);
 	}
 
 	40% {
@@ -899,19 +899,19 @@ h4 {
 	}
 
 	50% {
-		transform: translateX(+20vw) translateY(+15vw) scale(2);
+		transform: translateX(+20vw) translateY(+21vw) scale(2);
 	}
 	65% {
 		transform: translateX(+30vw) translateY(+5vw) scale(2);
 	}
 	75% {
-		transform: translateX(+40vw) translateY(+15vw) scale(2);
+		transform: translateX(+40vw) translateY(+21vw) scale(2);
 	}
 	90% {
 		transform: translateX(+50vw) translateY(+5vw) scale(2);
 	}
 	100% {
-		transform: translateX(+65vw) translateY(+15vw) scale(2);
+		transform: translateX(+65vw) translateY(+21vw) scale(2);
 	}
 }
 @keyframes tete6 {
@@ -927,13 +927,13 @@ h4 {
 }
 @keyframes tete7 {
 	0% {
-		transform: translateX(+25vw) translateY(-33vw) scale(1);
+		transform: translateX(+25vw) translateY(-28vw) scale(1);
 	}
 	50% {
 		transform: translateX(+25vw) translateY(+5vw) scale(4);
 	}
 	100% {
-		transform: translateX(+25vw) translateY(+22vw) scale(1);
+		transform: translateX(+25vw) translateY(+28vw) scale(1);
 	}
 }
 @keyframes tete8 {
@@ -969,7 +969,7 @@ h4 {
 	}
 
 	35% {
-		transform: translateX(-5vw) translateY(+17vw) scale(2);
+		transform: translateX(-5vw) translateY(+21vw) scale(2);
 	}
 
 	50% {
@@ -977,19 +977,19 @@ h4 {
 	}
 
 	65% {
-		transform: translateX(+20vw) translateY(+17vw) scale(2);
+		transform: translateX(+20vw) translateY(+21vw) scale(2);
 	}
 	75% {
 		transform: translateX(+30vw) translateY(+13vw) scale(2);
 	}
 	85% {
-		transform: translateX(+40vw) translateY(+17vw) scale(2);
+		transform: translateX(+40vw) translateY(+21vw) scale(2);
 	}
 	95% {
-		transform: translateX(+50vw) translateY(+17vw) scale(2);
+		transform: translateX(+50vw) translateY(+21vw) scale(2);
 	}
 	100% {
-		transform: translateX(+65vw) translateY(+17vw) scale(2);
+		transform: translateX(+65vw) translateY(+21vw) scale(2);
 	}
 }
 @keyframes tete11 {
@@ -1001,7 +1001,7 @@ h4 {
 	}
 
 	35% {
-		transform: translateX(-50vw) translateY(+17vw) scale(2);
+		transform: translateX(-50vw) translateY(+21vw) scale(2);
 	}
 
 	50% {
@@ -1009,19 +1009,19 @@ h4 {
 	}
 
 	65% {
-		transform: translateX(-50vw) translateY(+17vw) scale(2);
+		transform: translateX(-50vw) translateY(+21vw) scale(2);
 	}
 	75% {
 		transform: translateX(-50vw) translateY(+12vw) scale(2);
 	}
 	85% {
-		transform: translateX(-50vw) translateY(+17vw) scale(2);
+		transform: translateX(-50vw) translateY(+21vw) scale(2);
 	}
 	95% {
 		transform: translateX(-50vw) translateY(+15vw) rotate(-360deg) scale(2);
 	}
 	100% {
-		transform: translateX(-50vw) translateY(+20vw) rotate(0deg) scale(2);
+		transform: translateX(-50vw) translateY(+23vw) rotate(0deg) scale(2);
 	}
 }
 @keyframes tete12 {
@@ -1086,7 +1086,6 @@ h4 {
 #justine {
 	animation: tete7 10s infinite ease-in-out;
 }
-
 #nina {
 	animation: tete3 10s infinite linear;
 }
