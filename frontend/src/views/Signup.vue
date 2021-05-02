@@ -681,6 +681,8 @@ export default {
 	src: url("../assets/CharlotteSouthern.ttf") format("truetype");
 }
 h1 {
+	position: relative;
+	z-index: 100;
 	font-family: sprinkles;
 	font-size: 5rem;
 	letter-spacing: 3rem;
@@ -742,15 +744,15 @@ h2 div {
 	white-space: nowrap;
 }
 #bienvenue {
-	animation: showup 7s infinite;
+	animation: showup 8s infinite;
 }
 #sur {
 	width: 0px;
-	animation: reveal 7s infinite;
+	animation: reveal 8s infinite;
 }
 #sur span {
 	margin-left: -30vw;
-	animation: slidein 7s infinite;
+	animation: slidein 8s infinite;
 }
 @keyframes showup {
 	0% {
@@ -1140,7 +1142,28 @@ p {
 		letter-spacing: 1rem;
 	}
 	h2 {
-		font-size: 1.7rem;
+		font-size: 1.2rem;
+	}
+
+	@keyframes reveal {
+		0% {
+			opacity: 0;
+			width: 0px;
+		}
+		20% {
+			opacity: 1;
+			width: 0px;
+		}
+		30% {
+			width: 43vw;
+		}
+		80% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+			width: 43vw;
+		}
 	}
 	h3 {
 		font-size: 2.2rem;
@@ -1157,8 +1180,29 @@ p {
 		letter-spacing: 0.5rem;
 	}
 	h2 {
-		font-size: 1.2rem;
+		font-size: 0.8rem;
 	}
+	@keyframes reveal {
+		0% {
+			opacity: 0;
+			width: 0px;
+		}
+		20% {
+			opacity: 1;
+			width: 0px;
+		}
+		30% {
+			width: 60vw;
+		}
+		80% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+			width: 60vw;
+		}
+	}
+
 	h3 {
 		font-size: 1.4rem;
 	}
