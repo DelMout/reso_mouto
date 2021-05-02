@@ -20,7 +20,7 @@
 					</p>
 				</div>
 			</div>
-			<div id="nav_big">
+			<div v-if="logged" id="nav_big">
 				<div class="p-grid p-jc-center p-ai-start">
 					<TabMenu :model="items" />
 				</div>
@@ -200,9 +200,6 @@ export default {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #303030;
-	/* background-image: url("./assets/fondVague.png");
-	background-position: bottom;
-	background-size: inherit; */
 }
 
 #nav {

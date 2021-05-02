@@ -2,8 +2,13 @@
 	<div id="fond">
 		<!-- Quand non connecté -->
 		<div id="top" v-if="!logged">
-			<div id="enseigne"><h1>RÉSO' MOUTO'</h1></div>
-			<h2>Bienvenue sur ton Réseau Social Familial Mouto !</h2>
+			<div><h1>RÉSO' MOUTO'</h1></div>
+			<div>
+				<h2>
+					<div id="bienvenue">Bienvenue</div>
+					<div id="sur"><span>sur ton Réseau Social Familial Mouto !</span></div>
+				</h2>
+			</div>
 			<div v-if="infoHome || sent" class="p-grid p-jc-center">
 				<Message severity="warn">{{ infoHome }} {{ sent }} </Message>
 			</div>
@@ -677,44 +682,127 @@ export default {
 }
 h1 {
 	font-family: sprinkles;
-	font-size: 7rem;
+	font-size: 5rem;
 	letter-spacing: 3rem;
 	margin: 0px;
 	margin-top: 1vw;
 	padding: 0px;
-	color: transparent;
-	background-image: linear-gradient(to right, #f00, #ff0, #0ff, #0f0, #00f);
-	-webkit-background-clip: text;
-	animation: colore 20s linear infinite;
-	background-size: 1000%;
+	color: #0e3742;
+	-webkit-box-reflect: below 1px linear-gradient(transparent, #0008);
+	line-height: 0.7em;
+	outline: none;
+	animation: neon 5s linear infinite;
 }
-#enseigne {
-	background-color: rgb(76, 41, 136);
-	padding: 0.5vw;
-	margin-right: 8vw;
-	margin-left: 8vw;
-	margin-bottom: 2vw;
-	border-radius: 2vw;
-	box-shadow: 0.3vw 0.3vw 0.4vw grey;
-}
-@keyframes colore {
-	0% {
-		background-position: 0% 100%;
+
+@keyframes neon {
+	0%,
+	18%,
+	20%,
+	50.1%,
+	60%,
+	65.1%,
+	80%,
+	90.1%,
+	92% {
+		color: #673ab7;
+		text-shadow: none;
 	}
-	50% {
-		background-position: 100% 100%;
-	}
+
+	18.1%,
+	20.1%,
+	30%,
+	50%,
+	60.1%,
+	65%,
+	80.1%,
+	90%,
+	92.1%,
 	100% {
-		background-position: 0% 100%;
+		color: #fff;
+		text-shadow: 0 0 10px #673ab7, 0 0 20px #673ab7, 0 0 40px #673ab7, 0 0 80px #673ab7,
+			0 0 160px #673ab7;
 	}
 }
 h2 {
+	color: rgb(103, 58, 183);
 	font-family: calibri;
 	font-size: 2rem;
 	margin: 1vw;
+	margin-top: 3vw;
 	padding: 0px;
-	color: rgb(103, 58, 183);
 }
+
+h2 div {
+	overflow: hidden;
+	-webkit-backface-visibility: hidden;
+	-webkit-perspective: 1000;
+	-webkit-transform: translate3d(0, 0, 0);
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+}
+#bienvenue {
+	animation: showup 7s infinite;
+}
+#sur {
+	width: 0px;
+	animation: reveal 7s infinite;
+}
+#sur span {
+	margin-left: -30vw;
+	animation: slidein 7s infinite;
+}
+@keyframes showup {
+	0% {
+		opacity: 0;
+	}
+	20% {
+		opacity: 1;
+	}
+	80% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes slidein {
+	0% {
+		margin-left: -40vw;
+	}
+	20% {
+		margin-left: -40vw;
+	}
+	35% {
+		margin-left: 0px;
+	}
+	100% {
+		margin-left: 0px;
+	}
+}
+
+@keyframes reveal {
+	0% {
+		opacity: 0;
+		width: 0px;
+	}
+	20% {
+		opacity: 1;
+		width: 0px;
+	}
+	30% {
+		width: 28vw;
+	}
+	80% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		width: 28vw;
+	}
+}
+
 h3 {
 	font-family: charlotteS;
 	font-size: 3rem;
