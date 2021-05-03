@@ -30,67 +30,67 @@
 				src="../assets/aurelieVis.png"
 			/>
 			<img
-				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				class="tete p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="delphine"
 				alt="delphine"
 				src="../assets/delphineVis.png"
 			/>
 			<img
-				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				class="tete p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="axel"
 				alt="axel"
 				src="../assets/axel.png"
 			/>
 			<img
-				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				class="tete p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="lucie"
 				alt="lucie"
 				src="../assets/lucie.png"
 			/>
 			<img
-				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				class="tete p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="nina"
 				alt="nina"
 				src="../assets/nina.png"
 			/>
 			<img
-				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				class="tete p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="maxym"
 				alt="maxym"
 				src="../assets/maxym.png"
 			/>
 			<img
-				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				class="tete p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="bertrand"
 				alt="bertrand"
 				src="../assets/bertrand.png"
 			/>
 			<img
-				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				class="tete p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="gosia"
 				alt="gosia"
 				src="../assets/gosia.png"
 			/>
 			<img
-				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				class="tete p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="justine"
 				alt="justine"
 				src="../assets/justine.png"
 			/>
 			<img
-				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				class="tete p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="morgan"
 				alt="morgan"
 				src="../assets/morgan.png"
 			/>
 			<img
-				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				class="tete p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="christ"
 				alt="christ"
 				src="../assets/christ.png"
 			/>
 			<img
-				class=" p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
+				class="tete p-avatar p-avatar-image p-avatar-circle p-avatar-xl "
 				id="quentin"
 				alt="quentin"
 				src="../assets/quentin.png"
@@ -1207,7 +1207,7 @@ p {
 	h4 {
 		font-size: 0.9rem;
 	}
-	img {
+	.tete {
 		display: none;
 	}
 }
