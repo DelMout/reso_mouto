@@ -6,7 +6,7 @@ const { Op } = require("sequelize");
 exports.getAllPub = (req, res) => {
 	publication
 		.findAll({
-			order: [["date_crea_pub", "DESC"]],
+			order: [["id", "DESC"]],
 			// order: [["date_crea_pub", "DESC"]],
 		})
 		.then((pub) => {
@@ -43,7 +43,8 @@ exports.createPub = (req, res) => {
 exports.getPubByUser = (req, res) => {
 	publication
 		.findAll({
-			order: [["date_crea_pub", "DESC"]],
+			order: [["id", "DESC"]],
+			// order: [["date_crea_pub", "DESC"]],
 			where: { userId: req.params.userid },
 		})
 		.then((pub) => {

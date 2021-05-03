@@ -33,7 +33,7 @@
 						class=" p-card p-shadow-6  p-lg-4 p-md-8 p-col-12  p-p-lg-5 p-py-3 p-my-2 "
 					>
 						<Author class="p-mx-0 p-text-left" :item="pub" />
-						<h2 class="p-card-title p-mx-auto ">{{ pub.titre }}</h2>
+						<h2 class="p-card-title p-mx-auto ">{{ pub.index }} {{ pub.titre }}</h2>
 						<div class="p-card-content p-mx-auto">
 							<p class="p-text-justify p-mb-3">{{ pub.contenu }}</p>
 							<img
@@ -133,7 +133,6 @@ export default {
 		mesOuLes: function() {
 			if (this.mine) {
 				this.publica = [];
-				console.log(this.publica);
 				this.mesLes = "Seulement mes publications";
 				this.seeMinePublications();
 			} else {
@@ -261,6 +260,14 @@ export default {
 																			sad: respSad.data.count,
 																			symbol: repSymb.data,
 																		});
+																		this.publica.sort(
+																			function compare(a, b) {
+																				return (
+																					b.index -
+																					a.index
+																				);
+																			}
+																		);
 																	});
 															});
 													});
@@ -385,6 +392,17 @@ export default {
 																				symbol:
 																					repSymb.data,
 																			});
+																			this.publica.sort(
+																				function compare(
+																					a,
+																					b
+																				) {
+																					return (
+																						b.index -
+																						a.index
+																					);
+																				}
+																			);
 																		});
 																});
 														});

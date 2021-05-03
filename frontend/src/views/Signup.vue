@@ -478,10 +478,8 @@ export default {
 					localStorage.setItem("token", token);
 					localStorage.setItem("userId", userId);
 					localStorage.setItem("Admin", isAdmin);
-					console.log(this.prenom);
 					localStorage.setItem("prenom", this.prenom);
 					this.setAdmin(isAdmin);
-					console.log("isadmin :" + isAdmin);
 					this.$store.dispatch("checkConnect");
 					//update last connection date in users table
 					axios({
