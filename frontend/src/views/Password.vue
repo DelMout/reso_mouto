@@ -71,6 +71,24 @@
 					</div>
 				</div>
 			</div>
+			<!-- case à cocher pour choix envoi email auto -->
+			<div class="p-grid p-jc-center p-my-5 ">
+				<div class=" p-lg-4 p-md-5 p-col-11 vertical-container">
+					<div class="p-field-checkbox">
+						<Checkbox id="newPub" value="emailPub" v-model="checkPub" />
+						<label for="newPub"
+							>Je veux recevoir un mail à chaque nouvelle publication.</label
+						>
+					</div>
+					<div class="p-field-checkbox">
+						<Checkbox id="newCom" value="emailCom" v-model="checkCom" />
+						<label for="newCom"
+							>Je veux recevoir un mail lorsque mes publications sont
+							commentées.</label
+						>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<Button
@@ -87,6 +105,10 @@ export default {
 	name: "Password",
 	data() {
 		return {
+			emailPub: 0,
+			emailCom: 0,
+			checkPub: false,
+			checkCom: false,
 			prenom: "",
 			userId: "",
 			email: "",
@@ -143,12 +165,19 @@ export default {
 
 		//* Validate datas modification
 		modifPassword: function() {
-			localStorage.removeItem("emailSent");
+			if (this.checkPub) {
+				this.emailPub = 1;
+			}
+			if (this.checkCom) {
+				this.emailCom = 1;
+			}
 
 			axios
 				.put("http://localhost:3001/api/auth/modifpassword/" + this.userId, {
 					email: this.$data.email,
 					password: this.$data.password,
+					emailPub: this.emailPub,
+					emailCom: this.emailCom,
 				})
 				.then((resp) => {
 					this.$router.push("/");

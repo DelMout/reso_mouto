@@ -328,7 +328,12 @@ exports.modifPassword = (req, res) => {
 		return res.status(401).send(schemaPassword.validate(req.body.password, { list: true }));
 	} else {
 		user.update(
-			{ email: req.body.email, password: bcrypt.hashSync(req.body.password, 10) },
+			{
+				email: req.body.email,
+				emailPub: req.body.emailPub,
+				emailCom: req.body.emailCom,
+				password: bcrypt.hashSync(req.body.password, 10),
+			},
 			{ where: { id: req.params.userid } }
 		)
 			.then(() => {
