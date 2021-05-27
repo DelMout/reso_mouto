@@ -186,7 +186,7 @@ exports.emailCom = (req, res) => {
 // * Create a new user
 exports.signup = (req, res) => {
 	if (req.file) {
-		req.body.photo = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+		req.body.photo = `https://${req.get("host")}/images/${req.file.filename}`;
 	} else {
 		req.body.photo = null;
 	}
@@ -268,7 +268,7 @@ exports.modif = (req, res) => {
 		return res.status(401).send(schemaPassword.validate(req.body.password, { list: true }));
 	} else {
 		if (req.file) {
-			req.body.photo = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+			req.body.photo = `https://${req.get("host")}/images/${req.file.filename}`;
 			//delete the previous image file
 			user.findOne({ where: { id: req.params.userid } })
 				.then((rep) => {

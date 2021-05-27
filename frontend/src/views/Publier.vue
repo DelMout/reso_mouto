@@ -88,6 +88,10 @@ export default {
 			if (!this.logged) {
 				this.$router.push("/");
 			} else {
+				this.severity = "info";
+				this.message = true;
+				this.theInfo =
+					"Merci de patienter. Enregistrement en cours. Cela peut prendre quelques minutes.";
 				const formData = new FormData();
 				formData.append("image", this.$data.image);
 				formData.append("titre", this.$data.titre);

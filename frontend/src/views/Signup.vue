@@ -100,7 +100,7 @@
 		<div>
 			<h4 v-if="mod && logged">{{ prenom }}, Tu peux ici modifier tes données</h4>
 			<div class="p-grid p-jc-center">
-				<div class="p-lg-4 p-md-6 p-col-10">
+				<div id="sure" class="p-lg-4 p-md-6 p-col-10">
 					<Message v-if="theInfo" :severity="severity" :life="7000" :sticky="false">{{
 						theInfo
 					}}</Message>
@@ -469,6 +469,7 @@ export default {
 		loginUser: function() {
 			this.theInfo = "";
 			axios
+				// .post("http://api.resomouto.delmout.com/api/auth/login", {
 				.post("http://localhost:3001/api/auth/login", {
 					prenom: this.prenom,
 					password: this.password,
@@ -484,6 +485,9 @@ export default {
 					//update last connection date in users table
 					axios({
 						method: "put",
+						// url:
+						// "http://api.resomouto.delmout.com/api/auth/login/" +
+						// this.$store.state.userId,
 						url: "http://localhost:3001/api/auth/login/" + this.$store.state.userId,
 						headers: {
 							Authorization: `Bearer ${this.token}`,
@@ -692,6 +696,9 @@ h1 {
 	line-height: 0.7em;
 	outline: none;
 	animation: neon 5s linear infinite;
+}
+#sure {
+	z-index: 100;
 }
 
 @keyframes neon {

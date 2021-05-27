@@ -9,7 +9,7 @@ const admin = require("../middleware/isAdmin"); // Request authentification for 
 const { route } = require("./publication");
 
 // * Voir tous users
-router.get("/users", admin, userCtrl.getAllUsers);
+router.get("/users", userCtrl.getAllUsers); //! Retiré admin
 
 // * Sign Up
 router.post("/signup", admin, multer, userCtrl.signup);

@@ -20,7 +20,8 @@ exports.getAllPub = (req, res) => {
 // * Create a publication
 exports.createPub = (req, res) => {
 	if (req.file) {
-		req.body.photo = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+		// req.body.photo = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+		req.body.photo = `https://${req.get("host")}/images/${req.file.filename}`;
 	} else {
 		req.body.photo = null;
 	}

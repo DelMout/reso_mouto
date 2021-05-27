@@ -6,7 +6,7 @@
 				<Message v-if="theInfo" :severity="severity" :sticky="true">{{ theInfo }}</Message>
 			</div>
 		</div>
-		<div class=" p-text-left ">
+		<div v-if="actif" class=" p-text-left ">
 			<div class=" p-input-filled  " enctype="multipart/form-data">
 				<div class="p-grid p-jc-center p-py-0">
 					<div class=" p-lg-4 p-md-5 p-col-11 vertical-container">
@@ -73,7 +73,7 @@
 			</div>
 			<!-- case à cocher pour choix envoi email auto -->
 			<div class="p-grid p-jc-center p-my-5 ">
-				<div class=" p-lg-4 p-md-5 p-col-11 vertical-container">
+				<div v-if="!logged" class=" p-lg-4 p-md-5 p-col-11 vertical-container">
 					<div class="p-field-checkbox">
 						<Checkbox id="newPub" value="emailPub" v-model="checkPub" />
 						<label for="newPub"
@@ -92,6 +92,7 @@
 		</div>
 
 		<Button
+			v-if="actif"
 			class="p-button p-button-raised p-mt-5"
 			label="Valider les modifications"
 			@click="modifPassword"
@@ -100,6 +101,7 @@
 </template>
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
 	name: "Password",
@@ -123,6 +125,7 @@ export default {
 			up: "",
 			low: "",
 			num: "",
+			actif: true,
 			convers: {
 				min: "10 caractères minimum",
 				uppercase: " manque majuscule",
@@ -131,6 +134,9 @@ export default {
 				not: 'les symboles "$.=" et apostrophe sont interdits',
 			},
 		};
+	},
+	computed: {
+		...mapState(["logged"]),
 	},
 	beforeMount: function() {
 		this.findDatas();
@@ -145,7 +151,14 @@ export default {
 				(this.emailInfo !== "Adresse email non accéptée." &&
 					this.theInfo === "L'adresse email saisie n'est pas correcte."))
 		) {
-			this.theInfo = "";
+			if (!this.prenom) {
+				this.theInfo =
+					"Cette page n'est plus active. Tu t'es déjà connecté(e) au site avec ton mot de passe.";
+				this.actif = false;
+			} else {
+				this.theInfo = "";
+				this.actif = true;
+			}
 		}
 	},
 	methods: {
